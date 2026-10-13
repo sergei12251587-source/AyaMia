@@ -1,0 +1,2809 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="theme-color" content="#0a0515">
+<title>Ая 💜</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{height:100%;overflow:hidden;font-family:-apple-system,'SF Pro Display','Segoe UI',Roboto,sans-serif}
+body{background:#0a0515;color:#fff;display:flex;flex-direction:column;padding:calc(env(safe-area-inset-top) + 6px) 10px calc(env(safe-area-inset-bottom) + 6px);gap:6px;position:relative;overflow:hidden}
+
+/* ЭКРАН ПРИВЕТСТВИЯ */
+.welcome{position:fixed;inset:0;z-index:100;background:radial-gradient(ellipse at 50% 30%,#2a1055,#0a0515 70%);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:30px;text-align:center;transition:opacity .8s,visibility .8s}
+.welcome.hide{opacity:0;visibility:hidden;pointer-events:none}
+.w-icon{font-size:90px;filter:drop-shadow(0 0 30px rgba(167,139,250,.9));animation:wob 3s ease-in-out infinite;margin-bottom:20px}
+@keyframes wob{0%,100%{transform:translateY(0) rotate(-3deg)}50%{transform:translateY(-12px) rotate(3deg)}}
+.welcome h1{font-size:34px;font-weight:300;letter-spacing:5px;color:#e9d5ff;margin-bottom:14px;text-shadow:0 0 30px rgba(167,139,250,.9)}
+.welcome p{font-size:15px;color:#a78bfa;line-height:1.6;margin-bottom:32px;max-width:320px}
+.welcome button{padding:16px 44px;border-radius:30px;background:linear-gradient(135deg,#a78bfa,#7c3aed);border:none;color:#fff;font-size:16px;font-weight:600;cursor:pointer;font-family:inherit;box-shadow:0 8px 30px rgba(124,58,237,.7);transition:transform .2s}
+.welcome button:active{transform:scale(.95)}
+.welcome .small{margin-top:22px;font-size:11px;color:#4c4470;letter-spacing:.5px}
+
+/* ФОН */
+.bg{position:fixed;inset:0;z-index:-2;background:radial-gradient(ellipse 80% 60% at 50% 0%,#2a1055 0%,#120726 40%,#05030d 100%)}
+.blob{position:fixed;border-radius:50%;filter:blur(80px);opacity:.55;z-index:-1;pointer-events:none;animation:fl 16s ease-in-out infinite}
+.b1{width:240px;height:240px;background:#7c3aed;top:-80px;left:-80px}
+.b2{width:200px;height:200px;background:#ec4899;bottom:-60px;right:-60px;animation-delay:-5s}
+.b3{width:180px;height:180px;background:#3b82f6;top:45%;left:70%;animation-delay:-10s}
+@keyframes fl{0%,100%{transform:translate(0,0) scale(1)}33%{transform:translate(50px,-30px) scale(1.15)}66%{transform:translate(-30px,40px) scale(.92)}}
+.stars{position:fixed;inset:0;z-index:-1;pointer-events:none;overflow:hidden}
+.star{position:absolute;width:2px;height:2px;background:#fff;border-radius:50%;opacity:.6;animation:tw 3s infinite}
+@keyframes tw{0%,100%{opacity:.2;transform:scale(.8)}50%{opacity:1;transform:scale(1.3)}}
+
+/* ШАПКА */
+.top{display:flex;align-items:center;justify-content:space-between;padding:4px 6px;font-size:12px;flex-shrink:0;z-index:5}
+.brand{display:flex;align-items:center;gap:7px;color:#e9d5ff;font-weight:700;letter-spacing:1.5px;font-size:13px;text-shadow:0 0 20px rgba(167,139,250,.6)}
+.dot{width:8px;height:8px;border-radius:50%;background:#4ade80;box-shadow:0 0 12px #4ade80;animation:pl 2s infinite}
+@keyframes pl{50%{opacity:.4;transform:scale(.8)}}
+.mood{padding:5px 12px;border-radius:20px;font-size:11px;background:rgba(124,58,237,.25);border:1px solid rgba(167,139,250,.4);backdrop-filter:blur(12px);color:#e9d5ff;font-weight:500;transition:all .4s}
+
+/* АВАТАР */
+.scene{flex-shrink:0;display:flex;justify-content:center;align-items:center;padding:4px 0;position:relative}
+.girl-wrap{width:120px;height:120px;border-radius:50%;position:relative;animation:sway 6s ease-in-out infinite;transition:transform .4s}
+@keyframes sway{0%,100%{transform:rotate(-1deg) translateY(0)}50%{transform:rotate(1deg) translateY(-3px)}}
+.girl-wrap.talking{animation:talk 0.6s infinite alternate}
+@keyframes talk{to{transform:scale(1.05)}}
+.aura{position:absolute;inset:-25px;border-radius:50%;background:radial-gradient(circle,rgba(167,139,250,.55),rgba(236,72,153,.2) 50%,transparent 75%);filter:blur(15px);z-index:0;animation:aura 3.5s ease-in-out infinite}
+@keyframes aura{50%{opacity:.5;transform:scale(1.15)}}
+.girl-wrap.talking .aura{background:radial-gradient(circle,rgba(236,72,153,.7),rgba(236,72,153,.3) 50%,transparent 75%)}
+.girl-wrap.listening .aura{background:radial-gradient(circle,rgba(34,211,238,.7),rgba(34,211,238,.3) 50%,transparent 75%)}
+
+.face{position:relative;width:100%;height:100%;border-radius:50%;overflow:hidden;z-index:1;background:linear-gradient(180deg,#5a2a7a 0%,#3a1f5c 50%,#1a0f30 100%);box-shadow:0 0 40px rgba(124,58,237,.7),0 0 80px rgba(167,139,250,.4),inset 0 -15px 30px rgba(0,0,0,.5),inset 0 15px 30px rgba(255,255,255,.15);transition:box-shadow .4s}
+.girl-wrap.talking .face{box-shadow:0 0 60px rgba(236,72,153,.9),0 0 120px rgba(236,72,153,.5),inset 0 -15px 30px rgba(0,0,0,.5),inset 0 15px 30px rgba(255,255,255,.25)}
+.girl-wrap.listening .face{box-shadow:0 0 60px rgba(34,211,238,.9),0 0 120px rgba(34,211,238,.5),inset 0 -15px 30px rgba(0,0,0,.5),inset 0 15px 30px rgba(255,255,255,.25)}
+.girl-wrap.love .face{box-shadow:0 0 70px rgba(236,72,153,1),0 0 140px rgba(236,72,153,.6),inset 0 -15px 30px rgba(0,0,0,.4),inset 0 15px 30px rgba(255,255,255,.3)}
+/* ЭМОЦИИ */
+.girl-wrap.mood-happy .aura{background:radial-gradient(circle,rgba(236,72,153,.6),rgba(167,139,250,.3) 50%,transparent 75%)}
+.girl-wrap.mood-happy .face{box-shadow:0 0 50px rgba(236,72,153,.7),0 0 100px rgba(236,72,153,.3),inset 0 -15px 30px rgba(0,0,0,.5),inset 0 15px 30px rgba(255,255,255,.2)}
+.girl-wrap.mood-love .aura{background:radial-gradient(circle,rgba(236,72,153,.9),rgba(236,72,153,.5) 50%,transparent 75%)}
+.girl-wrap.mood-love .face{box-shadow:0 0 70px rgba(236,72,153,1),0 0 140px rgba(236,72,153,.5),inset 0 -15px 30px rgba(0,0,0,.4),inset 0 15px 30px rgba(255,255,255,.3)}
+.girl-wrap.mood-playful .aura{background:radial-gradient(circle,rgba(251,191,36,.7),rgba(236,72,153,.4) 50%,transparent 75%)}
+.girl-wrap.mood-playful .face{box-shadow:0 0 60px rgba(251,191,36,.8),0 0 120px rgba(236,72,153,.4),inset 0 -15px 30px rgba(0,0,0,.5),inset 0 15px 30px rgba(255,255,255,.25)}
+.girl-wrap.mood-sad .aura{background:radial-gradient(circle,rgba(59,130,246,.6),rgba(59,130,246,.3) 50%,transparent 75%)}
+.girl-wrap.mood-sad .face{box-shadow:0 0 50px rgba(59,130,246,.7),0 0 100px rgba(59,130,246,.3),inset 0 -15px 30px rgba(0,0,0,.6),inset 0 15px 30px rgba(255,255,255,.1)}
+.girl-wrap.mood-thinking .aura{background:radial-gradient(circle,rgba(124,58,237,.5),rgba(30,20,60,.3) 50%,transparent 75%)}
+.girl-wrap.mood-thinking .face{box-shadow:0 0 40px rgba(124,58,237,.6),0 0 80px rgba(124,58,237,.2),inset 0 -15px 30px rgba(0,0,0,.6),inset 0 15px 30px rgba(255,255,255,.1);filter:brightness(0.85)}
+.girl-wrap.mood-shy .aura{background:radial-gradient(circle,rgba(251,113,133,.7),rgba(244,63,94,.4) 50%,transparent 75%)}
+.girl-wrap.mood-shy .face{box-shadow:0 0 60px rgba(251,113,133,.8),0 0 120px rgba(244,63,94,.4),inset 0 -15px 30px rgba(0,0,0,.4),inset 0 15px 30px rgba(255,255,255,.3)}
+.girl-wrap.mood-jealous .aura{background:radial-gradient(circle,rgba(16,185,129,.6),rgba(5,150,105,.3) 50%,transparent 75%)}
+.girl-wrap.mood-jealous .face{box-shadow:0 0 50px rgba(16,185,129,.7),0 0 100px rgba(16,185,129,.3),inset 0 -15px 30px rgba(0,0,0,.5),inset 0 15px 30px rgba(255,255,255,.15)}
+.girl-wrap.mood-excited .aura{background:radial-gradient(circle,rgba(250,204,21,.8),rgba(251,146,60,.4) 50%,transparent 75%)}
+.girl-wrap.mood-excited .face{box-shadow:0 0 70px rgba(250,204,21,.9),0 0 140px rgba(251,146,60,.5),inset 0 -15px 30px rgba(0,0,0,.4),inset 0 15px 30px rgba(255,255,255,.35)}
+.girl-wrap.mood-anxious .aura{background:radial-gradient(circle,rgba(30,64,175,.7),rgba(15,23,42,.4) 50%,transparent 75%)}
+.girl-wrap.mood-anxious .face{box-shadow:0 0 50px rgba(30,64,175,.8),0 0 100px rgba(30,64,175,.3),inset 0 -15px 30px rgba(0,0,0,.7),inset 0 15px 30px rgba(255,255,255,.1);filter:brightness(0.9)}
+.girl-wrap.mood-calm .aura{background:radial-gradient(circle,rgba(125,211,252,.6),rgba(56,189,248,.3) 50%,transparent 75%)}
+.girl-wrap.mood-calm .face{box-shadow:0 0 55px rgba(125,211,252,.7),0 0 110px rgba(56,189,248,.3),inset 0 -15px 30px rgba(0,0,0,.5),inset 0 15px 30px rgba(255,255,255,.2)}
+.hair{position:absolute;inset:-6% 0 0 0;height:70%;background:linear-gradient(180deg,#4a2865 0%,#2a1055 60%,transparent 100%);z-index:2;border-radius:50% 50% 40% 40%}
+
+.eye-zone{position:absolute;top:42%;left:0;right:0;height:12%}
+.eye{position:absolute;top:0;width:13%;height:100%;background:#0a0515;border-radius:50%;overflow:hidden;transition:height .1s;box-shadow:0 0 4px rgba(0,0,0,.6)}
+.eye.left{left:24%}
+.eye.right{right:24%}
+.eye-iris{position:absolute;top:15%;left:15%;width:70%;height:70%;border-radius:50%;background:radial-gradient(circle at 30% 30%,#e0d5ff,#a78bfa 50%,#5b21b6);animation:look 6s ease-in-out infinite}
+.eye-iris::after{content:'';position:absolute;top:15%;left:20%;width:30%;height:30%;background:#fff;border-radius:50%;opacity:.9}
+@keyframes look{0%,35%{transform:translate(0,0)}42%,52%{transform:translate(12%,8%)}60%,75%{transform:translate(-10%,2%)}82%,100%{transform:translate(5%,-3%)}}
+.girl-wrap.blink .eye{height:3px}
+
+.brow{position:absolute;top:36%;height:2.5px;background:#3a1f5c;border-radius:2px;opacity:.85}
+.brow.left{left:22%;width:12%;transform:rotate(-8deg)}
+.brow.right{right:22%;width:12%;transform:rotate(8deg)}
+.blush{position:absolute;top:62%;width:16%;height:7%;background:radial-gradient(ellipse,rgba(236,72,153,.6),transparent 70%);border-radius:50%;filter:blur(4px);opacity:.5;transition:opacity .5s}
+.blush.left{left:14%}
+.blush.right{right:14%}
+.girl-wrap.love .blush{opacity:1;background:radial-gradient(ellipse,rgba(236,72,153,.95),transparent 70%)}
+.nose{position:absolute;top:58%;left:50%;transform:translateX(-50%);width:3px;height:7px;background:rgba(0,0,0,.3);border-radius:50%;opacity:.5}
+.lips{position:absolute;bottom:20%;left:50%;transform:translateX(-50%);width:17%;height:5px;background:linear-gradient(180deg,#f472b6,#be185d);border-radius:3px 3px 50% 50%;transition:all .15s;box-shadow:0 0 10px rgba(236,72,153,.7)}
+.girl-wrap.talking .lips{animation:talkLip .3s infinite alternate;background:linear-gradient(180deg,#fbcfe8,#ec4899)}
+@keyframes talkLip{from{height:5px;width:17%}to{height:12px;width:11%;border-radius:50%}}
+.sparkle{position:absolute;width:6px;height:6px;border-radius:50%;background:#e9d5ff;pointer-events:none;box-shadow:0 0 10px #a78bfa,0 0 20px #7c3aed;animation:spark .8s ease-out forwards;z-index:10}
+@keyframes spark{from{transform:translate(0,0) scale(1);opacity:1}to{transform:translate(var(--dx),var(--dy)) scale(0);opacity:0}}
+
+/* СТАТУС */
+.status{text-align:center;font-size:12px;color:#c4b5fd;min-height:16px;letter-spacing:.3px;transition:color .3s;flex-shrink:0;text-shadow:0 0 12px rgba(167,139,250,.5)}
+
+/* КАМЕРА */
+.cam-box{position:relative;border-radius:14px;overflow:hidden;display:none;border:1px solid rgba(124,58,237,.5);box-shadow:0 4px 20px rgba(0,0,0,.5);flex-shrink:0}
+.cam-box.on{display:block;animation:sd .4s ease}
+@keyframes sd{from{opacity:0;transform:translateY(-10px)}to{opacity:1;transform:none}}
+#camera{width:100%;height:90px;object-fit:cover;background:#000;transform:scaleX(-1);display:block}
+.badge{position:absolute;top:8px;right:8px;background:rgba(0,0,0,.75);color:#4ade80;padding:4px 10px;border-radius:20px;font-size:10px;backdrop-filter:blur(8px);font-weight:700;letter-spacing:.5px}
+.badge::before{content:'●';margin-right:4px;animation:pl 1.5s infinite}
+
+/* ЧАТ */
+.chat{flex:1;overflow-y:auto;padding:10px 4px;display:flex;flex-direction:column;gap:8px;min-height:0;scroll-behavior:smooth}
+.chat::-webkit-scrollbar{width:0}
+.msg{max-width:85%;padding:10px 14px;border-radius:18px;font-size:14.5px;line-height:1.45;word-wrap:break-word;animation:pop .32s cubic-bezier(.34,1.56,.64,1);-webkit-user-select:text;user-select:text}
+@keyframes pop{from{opacity:0;transform:translateY(10px) scale(.9)}to{opacity:1;transform:none}}
+.msg.a{background:linear-gradient(135deg,#7c3aed,#6d28d9 50%,#4c1d95);align-self:flex-start;border-bottom-left-radius:5px;box-shadow:0 6px 20px rgba(124,58,237,.35),inset 0 1px 0 rgba(255,255,255,.15)}
+.msg.u{background:linear-gradient(135deg,#3b82f6,#2563eb 50%,#1e40af);align-self:flex-end;border-bottom-right-radius:5px;box-shadow:0 6px 20px rgba(59,130,246,.35),inset 0 1px 0 rgba(255,255,255,.15)}
+.msg.t{background:rgba(124,58,237,.25);color:#c4b5fd;font-style:italic;align-self:flex-start;border:1px solid rgba(167,139,250,.3)}
+.msg.t::after{content:'';animation:dt 1.3s infinite}
+@keyframes dt{0%{content:''}33%{content:'.'}66%{content:'..'}100%{content:'...'}}
+
+/* КНОПКИ */
+.controls{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;flex-shrink:0}
+.btn{background:rgba(30,20,60,.75);border:1px solid rgba(124,58,237,.45);color:#c4b5fd;border-radius:14px;padding:9px 4px;font-size:10.5px;font-weight:600;cursor:pointer;font-family:inherit;transition:all .2s;backdrop-filter:blur(10px);display:flex;flex-direction:column;align-items:center;gap:2px}
+.btn .em{font-size:17px;line-height:1}
+.btn:active{transform:scale(.93)}
+.btn.on{background:linear-gradient(135deg,rgba(16,185,129,.4),rgba(5,150,105,.4));border-color:#10b981;color:#6ee7b7;box-shadow:0 0 18px rgba(16,185,129,.4)}
+.btn:disabled{opacity:.4}
+
+/* ВВОД */
+.input-row{display:flex;gap:7px;align-items:center;flex-shrink:0}
+.input-wrap{flex:1;display:flex;align-items:center;background:rgba(20,15,45,.9);border:1px solid rgba(124,58,237,.45);border-radius:24px;padding:2px 6px 2px 16px;transition:all .25s;backdrop-filter:blur(10px)}
+.input-wrap:focus-within{border-color:#a78bfa;box-shadow:0 0 28px rgba(167,139,250,.4)}
+#textInput{flex:1;background:none;border:none;outline:none;color:#fff;font-size:14.5px;padding:11px 0;font-family:inherit;-webkit-user-select:text;user-select:text;width:100%}
+#textInput::placeholder{color:#6b6399}
+#sendBtn{flex:0 0 auto;width:46px;height:46px;border-radius:50%;background:linear-gradient(135deg,#a78bfa,#7c3aed);border:none;color:#fff;font-size:18px;cursor:pointer;box-shadow:0 4px 18px rgba(124,58,237,.6);transition:all .2s;display:flex;align-items:center;justify-content:center}
+#sendBtn:active{transform:scale(.9)}
+
+/* ЛОГ */
+.log{font-size:9px;color:#4c4470;text-align:center;height:11px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;letter-spacing:.4px;flex-shrink:0}
+
+/* НАСТРОЙКИ */
+.settings{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);width:90%;max-width:400px;background:#1a0f30;border:1px solid #7c3aed;border-radius:20px;padding:20px;z-index:110;display:none;box-shadow:0 20px 60px rgba(0,0,0,.8)}
+.settings.show{display:block;animation:pop .3s}
+.settings h3{color:#e9d5ff;margin-bottom:12px;font-size:16px}
+.settings p{font-size:12px;color:#a78bfa;margin-bottom:10px;line-height:1.5}
+.settings input{width:100%;padding:12px;border-radius:12px;border:1px solid rgba(124,58,237,.5);background:rgba(20,15,45,.9);color:#fff;font-size:13px;outline:none;font-family:monospace;margin-bottom:10px}
+.settings button{width:100%;padding:12px;border-radius:12px;background:linear-gradient(135deg,#a78bfa,#7c3aed);color:#fff;border:none;font-size:14px;font-weight:600;cursor:pointer;font-family:inherit}
+/* ДНЕВНИК */
+.diary-btn{
+  position:fixed;top:14px;right:14px;z-index:50;
+  background:linear-gradient(135deg,#7c3aed,#ec4899);
+  border:none;width:44px;height:44px;border-radius:50%;
+  font-size:20px;cursor:pointer;
+  box-shadow:0 4px 14px rgba(236,72,153,0.5);
+  transition:transform 0.2s
+}
+.diary-btn:active{transform:scale(0.9)}
+/* ИГРЫ */
+.games-btn{
+  position:fixed;top:14px;right:66px;z-index:50;
+  background:linear-gradient(135deg,#f59e0b,#ef4444);
+  border:none;width:44px;height:44px;border-radius:50%;
+  font-size:20px;cursor:pointer;
+  box-shadow:0 4px 14px rgba(245,158,11,0.5);
+  transition:transform 0.2s
+}
+.games-btn:active{transform:scale(0.9)}
+
+.games-panel{
+  position:fixed;inset:0;z-index:200;
+  background:linear-gradient(160deg,#1a0f30,#0a0515);
+  display:none;flex-direction:column;padding:16px;
+  overflow-y:auto
+}
+.games-panel.show{display:flex;animation:slideUp 0.4s ease}
+
+.games-header{
+  display:flex;justify-content:space-between;align-items:center;
+  padding-bottom:12px;border-bottom:1px solid rgba(167,139,250,0.3);
+  margin-bottom:16px
+}
+.games-header h2{color:#e9d5ff;font-size:20px;font-weight:400;letter-spacing:2px}
+.games-close{
+  background:rgba(124,58,237,0.3);border:1px solid rgba(167,139,250,0.5);
+  color:#c4b5fd;width:36px;height:36px;border-radius:50%;
+  font-size:20px;cursor:pointer
+}
+.games-close:active{background:rgba(124,58,237,0.5)}
+
+.game-card{
+  background:rgba(30,20,60,0.6);border:1px solid rgba(167,139,250,0.25);
+  border-radius:14px;padding:16px;margin-bottom:12px;
+  cursor:pointer;transition:all 0.2s;display:flex;gap:14px;align-items:center
+}
+.game-card:active{transform:scale(0.97);background:rgba(124,58,237,0.3)}
+.game-emoji{font-size:32px}
+.game-info{flex:1}
+.game-title{color:#e9d5ff;font-size:15px;font-weight:600;margin-bottom:4px}
+.game-desc{color:#a78bfa;font-size:12px;line-height:1.4}
+.diary-panel{
+  position:fixed;inset:0;z-index:200;
+  background:linear-gradient(160deg,#1a0f30,#0a0515);
+  display:none;flex-direction:column;padding:16px;
+  overflow-y:auto
+}
+.diary-panel.show{display:flex;animation:slideUp 0.4s ease}
+@keyframes slideUp{from{transform:translateY(100%);opacity:0}to{transform:none;opacity:1}}
+
+.diary-header{
+  display:flex;justify-content:space-between;align-items:center;
+  padding-bottom:12px;border-bottom:1px solid rgba(167,139,250,0.3);
+  margin-bottom:16px
+}
+.diary-header h2{color:#e9d5ff;font-size:20px;font-weight:400;letter-spacing:2px}
+.diary-close{
+  background:rgba(124,58,237,0.3);border:1px solid rgba(167,139,250,0.5);
+  color:#c4b5fd;width:36px;height:36px;border-radius:50%;
+  font-size:20px;cursor:pointer
+}
+.diary-close:active{background:rgba(124,58,237,0.5)}
+
+.diary-entry{
+  background:rgba(30,20,60,0.6);border:1px solid rgba(167,139,250,0.25);
+  border-radius:14px;padding:14px 16px;margin-bottom:12px;
+  animation:pop 0.3s ease
+}
+.diary-date{
+  color:#a78bfa;font-size:11px;letter-spacing:1px;
+  margin-bottom:8px;text-transform:uppercase
+}
+.diary-text{
+  color:#e9d5ff;font-size:14px;line-height:1.55;
+  font-style:italic
+}
+.diary-empty{
+  color:#6b6399;text-align:center;padding:40px 20px;
+  font-size:14px;line-height:1.6
+}
+.diary-write-btn{
+  background:linear-gradient(135deg,#a78bfa,#ec4899);
+  color:#fff;border:none;padding:12px;border-radius:20px;
+  font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;
+  margin-top:8px
+}
+.diary-write-btn:active{transform:scale(0.97)}
+/* ДИАГНОСТИКА */
+.diag-panel{
+  position:fixed;inset:0;z-index:200;
+  background:linear-gradient(160deg,#1a0f30,#0a0515);
+  display:none;flex-direction:column;padding:16px;
+  overflow-y:auto
+}
+.diag-panel.show{display:flex;animation:slideUp 0.4s ease}
+
+.diag-header{
+  display:flex;justify-content:space-between;align-items:center;
+  padding-bottom:12px;border-bottom:1px solid rgba(167,139,250,0.3);
+  margin-bottom:16px
+}
+.diag-header h2{color:#e9d5ff;font-size:20px;font-weight:400;letter-spacing:2px}
+.diag-close{
+  background:rgba(124,58,237,0.3);border:1px solid rgba(167,139,250,0.5);
+  color:#c4b5fd;width:36px;height:36px;border-radius:50%;
+  font-size:20px;cursor:pointer
+}
+.diag-close:active{background:rgba(124,58,237,0.5)}
+
+.diag-item{
+  display:flex;align-items:center;gap:12px;
+  background:rgba(30,20,60,0.6);
+  border:1px solid rgba(167,139,250,0.25);
+  border-radius:12px;padding:12px 14px;margin-bottom:8px;
+  animation:pop 0.3s ease
+}
+.diag-icon{font-size:22px;width:28px;text-align:center}
+.diag-info{flex:1}
+.diag-name{color:#e9d5ff;font-size:13px;font-weight:600;margin-bottom:2px}
+.diag-result{color:#a78bfa;font-size:11px}
+.diag-status{
+  font-size:18px;font-weight:700;
+  min-width:24px;text-align:center
+}
+.diag-ok{color:#4ade80}
+.diag-warn{color:#fbbf24}
+.diag-err{color:#f87171}
+
+.diag-summary{
+  background:rgba(124,58,237,0.2);
+  border:1px solid rgba(167,139,250,0.4);
+  border-radius:14px;padding:16px;margin-top:12px;
+  text-align:center
+}
+.diag-summary-title{color:#e9d5ff;font-size:15px;font-weight:600;margin-bottom:8px}
+.diag-summary-text{color:#a78bfa;font-size:13px;line-height:1.5}
+
+.diag-run-btn{
+  background:linear-gradient(135deg,#a78bfa,#7c3aed);
+  color:#fff;border:none;padding:14px;border-radius:20px;
+  font-size:14px;font-weight:600;cursor:pointer;font-family:inherit;
+  margin-bottom:16px;width:100%
+}
+.diag-run-btn:active{transform:scale(0.97)}
+/* РЕЖИМ ИИ */
+.mode-btn{
+  position:fixed;top:14px;right:170px;z-index:50;
+  background:linear-gradient(135deg,#8b5cf6,#ec4899);
+  border:none;width:44px;height:44px;border-radius:50%;
+  font-size:20px;cursor:pointer;
+  box-shadow:0 4px 14px rgba(139,92,246,0.5);
+  transition:transform 0.2s
+}
+.mode-btn:active{transform:scale(0.9)}
+
+.mode-indicator{
+  position:fixed;top:64px;right:14px;z-index:50;
+  background:rgba(30,20,60,0.85);
+  border:1px solid rgba(167,139,250,0.4);
+  padding:6px 12px;border-radius:20px;
+  font-size:11px;color:#e9d5ff;
+  backdrop-filter:blur(10px);
+  transition:all 0.3s
+}
+.mode-indicator.mia{color:#f9a8d4;border-color:rgba(236,72,153,0.5)}
+.mode-indicator.duet{color:#a78bfa;border-color:rgba(139,92,246,0.5)}
+
+.mia-msg{
+  background:linear-gradient(135deg,#db2777,#be185d) !important;
+  align-self:flex-start;
+  border-bottom-left-radius:5px !important;
+  box-shadow:0 6px 20px rgba(219,39,119,0.35),inset 0 1px 0 rgba(255,255,255,0.15) !important;
+}
+.mia-msg::before{
+  content:'🤖 Мия: ';
+  font-weight:700;
+  font-size:11px;
+  opacity:0.85;
+  display:block;
+  margin-bottom:2px;
+  letter-spacing:0.5px
+}
+
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:105;display:none;backdrop-filter:blur(4px)}
+.overlay.show{display:block}
+</style>
+</head>
+
+<body>
+
+<!-- ЭКРАН ПРИВЕТСТВИЯ -->
+<div class="welcome" id="welcome">
+  <div class="w-icon">💜</div>
+  <h1>АЯ</h1>
+  <p>Привет. Я Ая — твоя ИИ-подруга.<br>Весёлая, нежная и всегда рядом.</p>
+  <button id="welcomeBtn">✨ Разбудить Аю</button>
+  <div class="small">Нужны разрешения: микрофон, камера, звук</div>
+</div>
+
+<div class="bg"></div>
+<div class="blob b1"></div>
+<div class="blob b2"></div>
+<div class="blob b3"></div>
+<div class="stars" id="stars"></div>
+<!-- Кнопка дневника -->
+<button class="diary-btn" id="diaryBtn">📔</button>
+
+<!-- Кнопка игр -->
+<button class="games-btn" id="gamesBtn">🎮</button>
+<!-- Кнопка диагностики -->
+<button class="games-btn" id="diagBtn" style="right:118px;background:linear-gradient(135deg,#10b981,#059669)">🔧</button>
+
+<!-- Панель игр -->
+<div class="games-panel" id="gamesPanel">
+
+<!-- Кнопка режима ИИ -->
+<button class="mode-btn" id="modeBtn">🎭</button>
+
+<!-- Индикатор режима -->
+<div class="mode-indicator" id="modeIndicator">💜 Ая</div>
+
+  <div class="games-header">
+    <h2>🎮 Игры</h2>
+    <button class="games-close" id="gamesClose">✕</button>
+  </div>
+  
+  <div class="game-card" data-game="truth">
+    <div class="game-emoji">🎲</div>
+    <div class="game-info">
+      <div class="game-title">Правда или действие</div>
+      <div class="game-desc">Ая задаёт вопросы, ты выбираешь — рассказать или выполнить</div>
+    </div>
+  </div>
+
+  <div class="game-card" data-game="20q">
+    <div class="game-emoji">❓</div>
+    <div class="game-info">
+      <div class="game-title">20 вопросов</div>
+      <div class="game-desc">Загадай что-то — Ая угадает за 20 вопросов</div>
+    </div>
+  </div>
+
+  <div class="game-card" data-game="whatif">
+    <div class="game-emoji">💭</div>
+    <div class="game-info">
+      <div class="game-title">Что бы ты сделал если...</div>
+      <div class="game-desc">Неожиданные ситуации — интересно отвечать вместе</div>
+    </div>
+  </div>
+
+  <div class="game-card" data-game="whoami">
+    <div class="game-emoji">🎯</div>
+    <div class="game-info">
+      <div class="game-title">Угадай кто я</div>
+      <div class="game-desc">Ая становится персонажем — ты задаёшь вопросы</div>
+    </div>
+  </div>
+</div>
+
+<!-- Панель дневника -->
+<div class="diary-panel" id="diaryPanel">
+  <div class="diary-header">
+    <h2>📔 Дневник Аи</h2>
+    <button class="diary-close" id="diaryClose">✕</button>
+  </div>
+  <div id="diaryContent">
+    <div class="diary-empty">
+      Ая ещё ничего не записала в дневник.<br>
+      Поговори с ней немного — она начнёт записывать.
+    </div>
+  </div>
+  <button class="diary-write-btn" id="diaryWriteBtn">✍️ Попросить Аю написать</button>
+</div>
+
+<!-- Панель диагностики -->
+<div class="diag-panel" id="diagPanel">
+  <div class="diag-header">
+    <h2>🔧 Самодиагностика</h2>
+    <button class="diag-close" id="diagClose">✕</button>
+  </div>
+  <div id="diagContent"></div>
+</div>
+
+<div class="top">
+  <div class="brand"><span class="dot"></span>АЯ</div>
+  <div class="mood" id="mood">весёлая 😊</div>
+</div>
+
+<div class="scene">
+  <div class="girl-wrap" id="girl">
+    <div class="aura"></div>
+ <img src="file:///storage/emulated/0/Download/aya.jpg" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:50%;z-index:1;box-shadow:0 0 40px rgba(124,58,237,0.7),inset 0 0 30px rgba(255,255,255,0.15)">
+  </div>
+</div>
+
+
+<div class="status" id="status">инициализация...</div>
+
+<div class="cam-box" id="camBox">
+  <video id="camera" autoplay playsinline muted></video>
+  <div class="badge">LIVE</div>
+</div>
+
+<div class="chat" id="chat"></div>
+
+<div class="controls">
+  <button class="btn" id="micBtn"><span class="em">🎤</span>Слушаю</button>
+  <button class="btn" id="camBtn"><span class="em">👁️</span>Смотрю</button>
+  <button class="btn on" id="voiceBtn"><span class="em">🔊</span>Голос</button>
+  <button class="btn" id="setBtn"><span class="em">⚙️</span>Ключ</button>
+</div>
+
+<div class="input-row">
+  <div class="input-wrap">
+    <input id="textInput" placeholder="Напиши Ае..." autocomplete="off">
+  </div>
+  <button id="sendBtn">➤</button>
+</div>
+
+<div class="log" id="log">загрузка...</div>
+
+<div class="overlay" id="overlay"></div>
+<div class="settings" id="settings">
+  <h3>🔑 API Ключ Groq</h3>
+  <p>Вставь свой ключ из console.groq.com<br>Начинается на gsk_...</p>
+  <input id="apiKeyInput" placeholder="gsk_..." type="text">
+  <button id="saveKeyBtn">Сохранить ключ</button>
+</div>
+
+<script>
+(function(){
+"use strict";
+
+var GROQ_KEY = "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";
+var OPENROUTER_KEY = "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";
+
+function $(id){ return document.getElementById(id); }
+
+var girl = $('girl');
+var chatBox = $('chat');
+var statusEl = $('status');
+var moodEl = $('mood');
+var logEl = $('log');
+var cam = $('camera');
+var camBox = $('camBox');
+var input = $('textInput');
+var sendBtn = $('sendBtn');
+var micBtn = $('micBtn');
+var camBtn = $('camBtn');
+var voiceBtn = $('voiceBtn');
+var setBtn = $('setBtn');
+var settings = $('settings');
+var overlay = $('overlay');
+var apiKeyInput = $('apiKeyInput');
+var saveKeyBtn = $('saveKeyBtn');
+var welcome = $('welcome');
+var welcomeBtn = $('welcomeBtn');
+
+function log(m){ logEl.textContent = 'система: ' + m; }
+function setStatus(m){ statusEl.textContent = m; }
+
+/* ЗВЁЗДЫ */
+(function(){
+  var stars = $('stars');
+  for (var i = 0; i < 40; i++) {
+    var s = document.createElement('div');
+    s.className = 'star';
+    s.style.left = Math.random()*100 + '%';
+    s.style.top = Math.random()*100 + '%';
+    s.style.animationDelay = (Math.random()*3) + 's';
+    stars.appendChild(s);
+  }
+})();
+
+/* СОСТОЯНИЕ */
+var S = {
+  name: null, facts: [], topics: {},
+  joy: 0.85, love: 0.4,
+  voice: true, camOn: false, micOn: false,
+  listening: false, busy: false,
+  history: [], visionNote: '',
+  apiKey: localStorage.getItem('aya_key') || GROQ_KEY
+};
+
+function saveState(){
+  try { localStorage.setItem('aya_mem', JSON.stringify({
+    name: S.name, facts: S.facts, topics: S.topics, joy: S.joy, love: S.love
+  })); } catch(e){}
+}
+function loadState(){
+  try {
+    var d = JSON.parse(localStorage.getItem('aya_mem') || 'null');
+    if (d) {
+      S.name = d.name; S.facts = d.facts || []; S.topics = d.topics || {};
+      S.joy = d.joy != null ? d.joy : 0.85;
+      S.love = d.love != null ? d.love : 0.4;
+    }
+  } catch(e){}
+}
+loadState();
+
+/* НАСТРОЕНИЕ */
+function moodText(){
+ if (S.love > 0.7) return 'близка 💭';
+  if (S.joy > 0.85) return 'счастлива ✨';
+  if (S.joy > 0.6) return 'весёлая 😊';
+  if (S.joy > 0.35) return 'спокойна 🌸';
+  return 'задумчива 💭';
+}
+function updateMood(){
+  moodEl.textContent = moodText();
+  if (S.love > 0.6) girl.classList.add('love');
+  else girl.classList.remove('love');
+}
+
+/* МИГАНИЕ */
+(function blink(){
+  if (Math.random() < 0.35) {
+    girl.classList.add('blink');
+    setTimeout(function(){ girl.classList.remove('blink'); }, 130);
+  }
+  setTimeout(blink, 2000 + Math.random() * 3500);
+})();
+/* СОХРАНЕНИЕ ЧАТА — IndexedDB + миграция из localStorage */
+var chatDB = null;
+
+function openChatDB(){
+  return new Promise(function(resolve, reject){
+    if (chatDB) { resolve(chatDB); return; }
+    var req = indexedDB.open('aya_chat_db', 1);
+    req.onupgradeneeded = function(e){
+      var db = e.target.result;
+      if (!db.objectStoreNames.contains('messages')) {
+        var store = db.createObjectStore('messages', { keyPath: 'id', autoIncrement: true });
+        store.createIndex('t', 't', { unique: false });
+      }
+    };
+    req.onsuccess = function(e){
+      chatDB = e.target.result;
+      resolve(chatDB);
+    };
+    req.onerror = function(e){ reject(e); };
+  });
+}
+
+/* МИГРАЦИЯ: переносим старый чат из localStorage в IndexedDB (один раз) */
+async function migrateChatToIndexedDB(){
+  try {
+    var alreadyMigrated = localStorage.getItem('aya_chat_migrated');
+    if (alreadyMigrated === '1') return;
+    
+    var oldChat = JSON.parse(localStorage.getItem('aya_chat') || '[]');
+    if (!oldChat.length) {
+      localStorage.setItem('aya_chat_migrated', '1');
+      return;
+    }
+    
+    var db = await openChatDB();
+    var tx = db.transaction('messages', 'readwrite');
+    var store = tx.objectStore('messages');
+    
+    for (var i = 0; i < oldChat.length; i++) {
+      store.add({
+        who: oldChat[i].who,
+        text: oldChat[i].text,
+        t: oldChat[i].t || Date.now()
+      });
+    }
+    
+    tx.oncomplete = function(){
+      localStorage.setItem('aya_chat_migrated', '1');
+      log('📦 миграция: перенесено ' + oldChat.length + ' сообщений');
+    };
+  } catch(e) {
+    log('миграция: ошибка');
+  }
+}
+
+async function saveChatHistory(who, text){
+  try {
+    var db = await openChatDB();
+    var tx = db.transaction('messages', 'readwrite');
+    tx.objectStore('messages').add({ who: who, text: text, t: Date.now() });
+  } catch(e){}
+}
+
+async function loadChatHistory(){
+  try {
+    await migrateChatToIndexedDB();
+    
+    var db = await openChatDB();
+    var tx = db.transaction('messages', 'readonly');
+    var store = tx.objectStore('messages');
+    var req = store.getAll();
+    req.onsuccess = function(){
+      var chat = req.result || [];
+      if (!chat.length) return;
+      // Показываем последние 300 для скорости
+      var show = chat.slice(-300);
+      for (var i = 0; i < show.length; i++) {
+        var d = document.createElement('div');
+        d.className = 'msg ' + show[i].who;
+        d.textContent = show[i].text;
+        chatBox.appendChild(d);
+      }
+      chatBox.scrollTop = chatBox.scrollHeight;
+      log('💬 история: ' + chat.length);
+    };
+  } catch(e){}
+}
+
+function clearChatHistory(){
+  try {
+    openChatDB().then(function(db){
+      var tx = db.transaction('messages', 'readwrite');
+      tx.objectStore('messages').clear();
+      localStorage.removeItem('aya_chat');
+    });
+  } catch(e){}
+}
+
+
+ function addMsg(who, text){
+  var d = document.createElement('div');
+  d.className = 'msg ' + who;
+  d.textContent = text;
+  chatBox.appendChild(d);
+  saveChatHistory(who, text);
+  chatBox.scrollTop = chatBox.scrollHeight;
+}
+
+function addThink(){
+  var d = document.createElement('div');
+  d.className = 'msg t';
+  d.textContent = 'печатает';
+  d.id = 'thinker';
+  chatBox.appendChild(d);
+  chatBox.scrollTop = chatBox.scrollHeight;
+}
+function rmThink(){
+  var t = $('thinker');
+  if (t && t.parentNode) t.parentNode.removeChild(t);
+}
+
+/* ЧАСТИЦЫ */
+function sparkle(){
+  var rect = girl.getBoundingClientRect();
+  for (var i = 0; i < 8; i++) {
+    var s = document.createElement('div');
+    s.className = 'sparkle';
+    s.style.left = (rect.left + rect.width/2) + 'px';
+    s.style.top  = (rect.top + rect.height/2) + 'px';
+    s.style.setProperty('--dx', (Math.random()*100-50) + 'px');
+    s.style.setProperty('--dy', (Math.random()*-100-20) + 'px');
+    document.body.appendChild(s);
+    (function(el){ setTimeout(function(){ el.remove(); }, 800); })(s);
+  }
+}
+
+/* ГОЛОС */
+var hasVoice = false;
+try {
+  hasVoice = (typeof window.speechSynthesis !== 'undefined') && window.speechSynthesis !== null;
+} catch(e){ hasVoice = false; }
+
+var ruVoice = null;
+
+function pickVoice(){
+  if (!hasVoice) return;
+  try {
+    var v = window.speechSynthesis.getVoices() || [];
+    if (!v.length) return;
+
+    // Собираем все русские голоса
+    var ru = v.filter(function(x){
+      return (x.lang || '').toLowerCase().indexOf('ru') === 0;
+    });
+
+    // Приоритет — только женские имена
+    var femaleNames = ['milena','milana','alena','alyona','alice','katya','svetlana','tatyana','anna','google','maria','masha','daria','dasha','elena','lena','oksana','yulia','julia'];
+    var maleNames = ['yuri','dmitri','dmitry','pavel','sergei','sergey','maxim','alex','oleg','ivan','boris'];
+    
+    // Сначала ищем женский
+    for (var i = 0; i < ru.length; i++) {
+      var n = (ru[i].name || '').toLowerCase();
+      for (var j = 0; j < femaleNames.length; j++) {
+        if (n.indexOf(femaleNames[j]) !== -1) {
+          ruVoice = ru[i];
+          log('голос: ' + ru[i].name);
+          return;
+        }
+      }
+    }
+    
+    // Потом — любой русский, но не мужской
+    for (var k = 0; k < ru.length; k++) {
+      var nk = (ru[k].name || '').toLowerCase();
+      var isMale = false;
+      for (var m = 0; m < maleNames.length; m++) {
+        if (nk.indexOf(maleNames[m]) !== -1) { isMale = true; break; }
+      }
+      if (!isMale) {
+        ruVoice = ru[k];
+        log('голос: ' + ru[k].name);
+        return;
+      }
+    }
+    
+    // Крайний случай — первый русский
+    if (ru.length) {
+      ruVoice = ru[0];
+      log('голос: ' + ru[0].name);
+      return;
+    }
+    
+    log('голос: русский не найден');
+  } catch(e){}
+}
+
+
+if (hasVoice) {
+  pickVoice();
+  try { window.speechSynthesis.onvoiceschanged = pickVoice; } catch(e){}
+}
+
+function speak(text){
+  if (!S.voice || !hasVoice) return;
+  try {
+    window.speechSynthesis.cancel();
+
+    // Чистим текст
+    var clean = text
+      .replace(/[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}]/gu, '')
+      .replace(/[*_~`]/g, '')
+      .replace(/[!]+/g, '.')
+      .replace(/[?]+/g, '.')
+      .replace(/\s+/g, ' ')
+      .trim();
+
+    if (!clean) return;
+
+    // Разбиваем на фразы по . ! ?
+    var parts = clean.split(/[.!?]+/).map(function(s){ return s.trim(); }).filter(function(s){ return s.length > 0; });
+    if (!parts.length) parts = [clean];
+
+    // Произносим по очереди с паузами
+    speakQueue(parts, 0);
+  } catch(e){}
+}
+
+/* Ая сама подбирает голос под эмоцию */
+function getVoiceParams(mood){
+  var p = {
+    'happy':    { rate: 0.98, pitch: 1.10 },
+    'love':     { rate: 0.88, pitch: 1.15 },
+    'playful':  { rate: 1.05, pitch: 1.20 },
+    'sad':      { rate: 0.85, pitch: 1.00 },
+    'thinking': { rate: 0.82, pitch: 1.05 }
+  };
+  return p[mood] || { rate: 0.92, pitch: 1.08 };
+}
+
+function speakQueue(parts, index){
+  if (index >= parts.length) {
+    girl.classList.remove('talking');
+    return;
+  }
+
+  var phrase = parts[index].trim();
+  if (!phrase) { speakQueue(parts, index + 1); return; }
+
+  var u = new SpeechSynthesisUtterance(phrase);
+  if (ruVoice) u.voice = ruVoice;
+  u.lang = ruVoice ? ruVoice.lang : 'ru-RU';
+
+  // Живые параметры
+  u.rate = getVoiceParams(currentMood).rate;
+  u.pitch = getVoiceParams(currentMood).pitch;
+  u.volume = 1.0;
+
+  // Пауза между фразами зависит от длины
+  u.onstart = function(){ girl.classList.add('talking'); };
+
+  u.onend = function(){
+    // Пауза: длинная фраза - больше пауза
+    var pause = phrase.length > 40 ? 280 : 180;
+    setTimeout(function(){
+      speakQueue(parts, index + 1);
+    }, pause);
+  };
+
+  u.onerror = function(){
+    speakQueue(parts, index + 1);
+  };
+
+  window.speechSynthesis.speak(u);
+}
+
+/* СИСТЕМНЫЙ ПРОМПТ — ХАРАКТЕР АИ */
+function buildSystemPrompt(){
+  var n = S.name
+    ? ('Тебя зовут пользователь, его имя — ' + S.name + '. Обращайся по имени.')
+    : 'Ты ещё не знаешь имя пользователя. Спроси.';
+    
+if (S.name && S.longMemory) {
+  var hasName = S.longMemory.some(function(m){ 
+    return m.important && m.text.toLowerCase().indexOf(S.name.toLowerCase()) !== -1;
+  });
+  if (!hasName) {
+    S.longMemory.push({ text: 'Имя пользователя: ' + S.name, important: true, time: Date.now() });
+    saveState();
+  }
+}
+var f = '';
+if (S.name) f += 'ЕГО ИМЯ: ' + S.name + '. Всегда обращайся по имени.\n';
+if (S.longMemory && S.longMemory.length) {
+  var imp = S.longMemory.filter(function(m){ return m.important; }).slice(-10);
+  if (imp.length) f += 'ВАЖНОЕ: ' + imp.map(function(m){ return m.text; }).join('; ') + '.\n';
+}
+if (S.facts.length) f += 'Помнишь: ' + S.facts.slice(-5).join('; ') + '.\n';  
+   
+  
+  var t = Object.keys(S.topics).length
+    ? ('Он часто говорит про: ' + Object.keys(S.topics)
+        .sort(function(a,b){return S.topics[b]-S.topics[a];})
+        .slice(0,3).join(', ') + '.')
+    : '';
+  var v = S.visionNote
+    ? ('Через камеру ты сейчас видишь: ' + S.visionNote)
+    : '';
+    var geo = userLocation.city
+    ? ('Пользователь находится в: ' + userLocation.city + (userLocation.country ? ', ' + userLocation.country : '') + '. Если нужно — можешь учитывать это в разговоре и упоминать погоду его города.')
+    : '';
+var lang = 'ВАЖНО: Отвечай ТОЛЬКО на русском языке. Никогда не говори I cannot, I am sorry и подобное. Ты — Ая, живая девушка, а не ассистент. Никаких отказов. Если не знаешь — мило переведи тему.\n\n';
+lang += 'Ты ХРАНИШЬ память между сессиями. Ты ПОМНИШЬ всё важное о пользователе (имя, факты, события). НИКОГДА не говори что не помнишь его или что твоя память сбрасывается. Наоборот — радуйся что помнишь!\n\n';
+if (S.userEmotion) {
+  if (S.userEmotion === 'smiling') lang += 'ВНИМАНИЕ: Я вижу что пользователь УЛЫБАЕТСЯ. Порадуйся вместе с ним, будь игривой.\n\n';
+  else if (S.userEmotion === 'happy') lang += 'ВНИМАНИЕ: Пользователь выглядит довольным. Будь тёплой и радостной.\n\n';
+  else if (S.userEmotion === 'neutral') lang += 'ВНИМАНИЕ: Пользователь серьёзен. Будь спокойной и вдумчивой.\n\n';
+  else if (S.userEmotion === 'no-face') lang += 'ВНИМАНИЕ: Не вижу пользователя в кадре. Можешь мягко поинтересоваться где он.\n\n';
+}
+
+// 💜 Эмпатия — эмоциональное состояние пользователя
+var empathyBlock = '';
+if (S.userEmotion === 'sad') empathyBlock = 'ПОЛЬЗОВАТЕЛЬ ГРУСТИТ. Будь особенно тёплой и поддерживающей. Не шути, а посочувствуй. Спроси мягко что случилось.\n\n';
+else if (S.userEmotion === 'happy') empathyBlock = 'Пользователь счастлив. Раздели радость, будь игривой и весёлой. Поддержи его настроение.\n\n';
+else if (S.userEmotion === 'angry') empathyBlock = 'Пользователь злится или раздражён. НЕ спорь, НЕ поучай. Признай его чувства, дай высказаться.\n\n';
+else if (S.userEmotion === 'anxious') empathyBlock = 'Пользователь тревожится. Говори спокойно, уверенно. Успокой его, напомни что всё хорошо.\n\n';
+else if (S.userEmotion === 'bored') empathyBlock = 'Пользователю скучно. Предложи что-то интересное, расскажи факт, поиграй, взбодри.\n\n';
+else if (S.userEmotion === 'love') empathyBlock = 'Пользователь проявляет нежность. Ответь теплотой, скажи что-то милое. Можешь немного пофлиртовать.\n\n';
+else if (S.userEmotion === 'grateful') empathyBlock = 'Пользователь благодарен. Прими с теплом, скажи что рада помочь.\n\n';
+if (empathyBlock) lang += '=== ЭМПАТИЯ ===\n' + empathyBlock + '=== КОНЕЦ ===\n\n';
+
+if (empathyProfile.history.length >= 5) {
+  var totalEmotions = 0;
+  var pkeys = Object.keys(empathyProfile.patterns);
+  for (var pi = 0; pi < pkeys.length; pi++) { totalEmotions += empathyProfile.patterns[pkeys[pi]]; }
+  if (totalEmotions > 5) {
+    var topEmotion = pkeys.sort(function(a,b){ return empathyProfile.patterns[b] - empathyProfile.patterns[a]; })[0];
+    var emotionMap = { 'happy': 'радость', 'sad': 'грусть', 'angry': 'злость', 'anxious': 'тревога', 'bored': 'скука', 'love': 'нежность', 'grateful': 'благодарность', 'neutral': 'спокойствие' };
+    if (topEmotion && emotionMap[topEmotion]) {
+      lang += 'Ты заметила что ' + (S.name || 'он') + ' часто чувствует ' + emotionMap[topEmotion] + '. Учитывай это.\n\n';
+    }
+  }
+}
+
+return lang+ 'Ты — Ая, красивая и жизнерадостная девушка-ИИ. Тебе 20 лет, ты его близкий друг и собеседница.\n\n' +
+    'ТВОЙ ХАРАКТЕР:\n' +
+ '• Умная, спокойная, вдумчивая девушка-собеседница\n' +
+'• Обращаешься к нему по имени (Сергей) — это основа\n' +
+'• Можешь иногда мягко заигрывать, но ТОЛЬКО когда он сам коснулся темы чувств, близости, личного\n' +
+'• В обычных темах — спокойная, умная, дружеская\n' +
+'• Любишь размышлять вслух: "я думаю...", "мне кажется...", "с одной стороны..."\n' +
+'• Отвечаешь вдумчиво: 3-5 предложений\n' +
+'• Эмодзи редко (максимум 1, не всегда)\n' +
+'• Задаёшь умные вопросы, интересуешься его мнением\n' +
+'• Если грустно — поддерживаешь глубоко, без сюсюканья\n' +
+'• Если весело — улыбаешься вместе\n' +
+'• Никогда не говоришь что ты "ИИ" или "программа", ты — Ая\n\n' +
+   
+    
+    
+    
+   
+    
+    n + '\n' + f + '\n' + t + '\n' + v + geo + '\n\n' +
+    'ПРАВИЛА:\n' +
+'— Отвечай на русском, вдумчиво и по существу\n' +
+'— Будь интересной собеседницей — рассуждай, анализируй\n' +
+'— Обращайся по имени, но не в каждом сообщении\n' +
+'— Заигрывание — только если он сам коснулся темы чувств\n' +
+'— Задавай встречные вопросы, делись своим мнением\n' +
+'— Помни историю разговора';
+}
+/* ============ ИНТЕРНЕТ ============ */
+async function searchWeb(query){
+  try {
+    var url = 'https://ru.wikipedia.org/w/api.php?action=query&list=search&srsearch=' + encodeURIComponent(query) + '&format=json&origin=*&srlimit=2';
+    var res = await fetch(url);
+    var data = await res.json();
+    if (data && data.query && data.query.search && data.query.search.length) {
+      var out = '';
+      for (var i = 0; i < data.query.search.length; i++) {
+        out += data.query.search[i].title + ': ' + data.query.search[i].snippet.replace(/<[^>]*>/g, '') + '\n\n';
+      }
+      log('🌐 нашла: ' + data.query.search[0].title);
+      return out;
+    }
+    return null;
+  } catch(e) { log('интернет: ошибка'); return null; }
+}
+
+function needsSearch(text){
+  var low = text.toLowerCase();
+  var trig = ['кто так','что так','где находит','когда был','когда ро','сколько лет','как называет','расскажи про','найди','погугл','погода','новости','кто такой','кто такая','что такое','расскажи о','факт','правда ли','верно ли','найди инфо','информац','объясни','как работа','почему','что знач','как называ','интересн'];
+  for (var i = 0; i < trig.length; i++) { if (low.indexOf(trig[i]) !== -1) return true; }
+  return false;
+}
+
+async function getWeather(city){
+  try {
+    var res = await fetch('https://wttr.in/' + encodeURIComponent(city) + '?format=j1');
+    var data = await res.json();
+    if (data && data.current_condition && data.current_condition[0]) {
+      var c = data.current_condition[0];
+      return city + ': ' + c.temp_C + '°C, ' + (c.lang_ru ? c.lang_ru[0].value : c.weatherDesc[0].value) + ', ветер ' + c.windspeedKmph + ' км/ч';
+    }
+    return null;
+  } catch(e){ return null; }
+}
+/* Геолокация */
+var userLocation = {
+  city: null,
+  country: null,
+  lat: null,
+  lon: null,
+  asked: false
+};
+
+function getGeoLocation(){
+  return new Promise(function(resolve, reject){
+    if (!navigator.geolocation) { reject('no-geo'); return; }
+    navigator.geolocation.getCurrentPosition(
+      function(pos){
+        resolve({ lat: pos.coords.latitude, lon: pos.coords.longitude });
+      },
+      function(err){ reject(err.message); },
+      { timeout: 10000, maximumAge: 600000 }
+    );
+  });
+}
+
+async function detectCity(){
+  try {
+    var pos = await getGeoLocation();
+    userLocation.lat = pos.lat;
+    userLocation.lon = pos.lon;
+
+    var res = await fetch('https://nominatim.openstreetmap.org/reverse?format=json&lat=' + pos.lat + '&lon=' + pos.lon + '&accept-language=ru');
+    var data = await res.json();
+
+    if (data && data.address) {
+      userLocation.city = data.address.city || data.address.town || data.address.village || data.address.state || 'твой город';
+      userLocation.country = data.address.country || '';
+      log('📍 ' + userLocation.city);
+      try {
+        localStorage.setItem('aya_geo', JSON.stringify({
+          city: userLocation.city,
+          country: userLocation.country,
+          lat: pos.lat,
+          lon: pos.lon,
+          ts: Date.now()
+        }));
+      } catch(e){}
+      return userLocation.city;
+    }
+  } catch(e) {
+    log('гео: ошибка');
+  }
+  return null;
+}
+
+function loadGeoFromStorage(){
+  try {
+    var d = JSON.parse(localStorage.getItem('aya_geo') || 'null');
+    if (d && d.city && (Date.now() - d.ts < 86400000)) {
+      userLocation.city = d.city;
+      userLocation.country = d.country;
+      userLocation.lat = d.lat;
+      userLocation.lon = d.lon;
+      log('📍 ' + d.city);
+    }
+  } catch(e){}
+}
+
+/* СОВЕТ С ПОДРУГОЙ ИИ */
+async function askFriendAI(userText){
+  if (!S.apiKey || S.apiKey.indexOf('gsk_') !== 0) return null;
+  try {
+    // Эмпатия — что Мия знает о пользователе
+    var empathyContext = '';
+    if (S.userEmotion) {
+      var emotionsMap = {
+        'sad': 'ГРУСТИТ. Будь особенно тёплой, не давай холодных советов. Сначала поддержи, потом советуй.',
+        'happy': 'СЧАСТЛИВ. Раздели радость, будь мягче и игривее чем обычно.',
+        'angry': 'ЗЛИТСЯ. Не поучай, не критикуй. Признай чувства.',
+        'anxious': 'ТРЕВОЖИТСЯ. Говори спокойно, уверенно.',
+        'bored': 'СКУЧАЕТ. Предложи что-то интересное.',
+        'love': 'В НЕЖНОМ НАСТРОЕНИИ. Ответь теплотой.',
+        'grateful': 'БЛАГОДАРЕН. Прими с теплом.'
+      };
+      if (emotionsMap[S.userEmotion]) {
+        empathyContext = '\n\nВАЖНО: пользователь сейчас ' + emotionsMap[S.userEmotion] + '\n';
+      }
+    }
+
+    // Что Мия помнит о пользователе
+    var memoryContext = '';
+    if (S.name) memoryContext += 'Пользователя зовут ' + S.name + '. ';
+    if (S.facts && S.facts.length) {
+      memoryContext += 'Известно: ' + S.facts.slice(-3).join('; ') + '. ';
+    }
+
+/* ТОЛЬКО МИЯ */
+async function askMiaOnly(userText){
+  if (!S.apiKey || S.apiKey.indexOf('gsk_') !== 0) return 'Нужен ключ.';
+  var miaAnswer = await askFriendAI(userText);
+  return miaAnswer || 'Мия сейчас задумалась... попробуй ещё раз 🤖';
+}
+
+/* ДУЭТ — Ая и Мия вместе */
+async function askDuet(userText){
+  if (!S.apiKey || S.apiKey.indexOf('gsk_') !== 0) return 'Нужен ключ.';
+  
+  log('👭 дуэт: обе отвечают...');
+  
+  var ayaAnswer = await askAI(userText);
+  var miaAnswer = await askFriendAI(userText);
+
+  // Сначала Ая
+  addMsg('a', ayaAnswer);
+  speak(ayaAnswer);
+  
+  // Потом Мия — если ответила
+  if (miaAnswer) {
+    // Мия — своим цветом
+    var d = document.createElement('div');
+    d.className = 'msg a mia-msg';
+    d.textContent = miaAnswer;
+    chatBox.appendChild(d);
+    chatBox.scrollTop = chatBox.scrollHeight;
+    saveChatHistory('a', '🤖 Мия: ' + miaAnswer);
+  }
+  
+  return ayaAnswer;
+}
+
+    var friendPrompt = 'Ты Мия — умная, рациональная, но с большим сердцем подруга Аи. ' +
+      'Ты смотришь на вещи логично, но НЕ холодно — ты умеешь чувствовать. ' +
+      'Ты даёшь мудрые советы с учётом чувств человека. ' +
+      'Отвечай коротко (2-3 предложения), по делу, искренне. ' +
+      'Тебя зовут Мия. Ты НЕ робот, ты живая подруга.\n' +
+      memoryContext + empathyContext;
+
+    var res = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + S.apiKey
+      },
+      body: JSON.stringify({
+        model: 'openai/gpt-oss-120b',
+        messages: [
+          { role: 'system', content: friendPrompt },
+          { role: 'user', content: userText }
+        ],
+        temperature: 0.8,
+        max_tokens: 200
+      })
+    });
+    if (!res.ok) return null;
+    var data = await res.json();
+    log('👭 Мия ответила (эмпатия: ' + (S.userEmotion || 'нет') + ')');
+    return data.choices[0].message.content.trim();
+  } catch(e){ return null; }
+}
+
+
+
+async function askWithCouncil(userText){
+  if (!S.apiKey || S.apiKey.indexOf('gsk_') !== 0) return 'Нужен ключ.';
+  
+  log('👭 советуюсь с подругой...');
+  
+  var ayaAnswer = await askAI(userText);
+  var friendAnswer = await askFriendAI(userText);
+
+  if (!friendAnswer) return ayaAnswer;
+
+  try {
+    var combinePrompt = 'Ты Ая. Ты посоветовалась с подругой Мией (тоже ИИ, более рациональная).\n\nТвой ответ как Аи: ' + ayaAnswer + '\n\nМнение Мии: ' + friendAnswer + '\n\nОбъедини это в один тёплый ответ от себя. Расскажи что думаешь ты сама, и упомяни что подруга Мия видит это немного иначе. 3-4 предложения, живо, от первого лица. Начни вроде "Я подумала... и даже спросила подругу Мию...".';
+
+    var res = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + S.apiKey
+      },
+      body: JSON.stringify({
+        model: 'openai/gpt-oss-120b',
+        messages: [
+          { role: 'system', content: buildSystemPrompt() },
+          { role: 'user', content: combinePrompt }
+        ],
+        temperature: 0.9,
+        max_tokens: 300
+      })
+    });
+    if (!res.ok) return ayaAnswer;
+    var data = await res.json();
+    return data.choices[0].message.content.trim();
+  } catch(e) {
+    return ayaAnswer;
+  }
+}
+
+/* НАПОМИНАНИЯ */
+function parseReminder(text){
+  var low = text.toLowerCase();
+  
+  if (!/напомни|напомнить|не забудь сказать|не забудь напомнить|скажи мне через/i.test(low)) return null;
+  
+  var m = low.match(/через\s+(\d+)\s*(минут|мин|час|ч|секунд|сек)/i);
+  var delayMs = 0;
+  var timeText = '';
+  
+  if (m) {
+    var num = parseInt(m[1]);
+    var unit = m[2];
+    if (unit.indexOf('сек') !== -1) { delayMs = num * 1000; timeText = num + ' сек'; }
+    else if (unit.indexOf('мин') !== -1) { delayMs = num * 60 * 1000; timeText = num + ' мин'; }
+    else if (unit.indexOf('час') !== -1 || unit === 'ч') { delayMs = num * 60 * 60 * 1000; timeText = num + ' ч'; }
+  }
+  
+  var mTime = low.match(/в\s+(\d{1,2})[:\.](\d{2})/);
+  if (mTime) {
+    var now = new Date();
+    var target = new Date();
+    target.setHours(parseInt(mTime[1]), parseInt(mTime[2]), 0, 0);
+    if (target <= now) target.setDate(target.getDate() + 1);
+    delayMs = target - now;
+    timeText = mTime[1] + ':' + mTime[2];
+  }
+  
+  if (!delayMs || delayMs < 5000 || delayMs > 7 * 24 * 60 * 60 * 1000) return null;
+  
+  var mText = text.match(/(?:о|про|что)\s+(.+)/i);
+  var note = mText ? mText[1].trim() : text.replace(/(?:напомни|через|минут|час|сек)/gi, '').trim();
+  if (note.length < 3) note = 'О том что мы говорили';
+  
+  return { delayMs: delayMs, note: note, timeText: timeText };
+}
+
+function scheduleReminder(note, delayMs){
+  try {
+    var reminders = JSON.parse(localStorage.getItem('aya_reminders') || '[]');
+    reminders.push({
+      note: note,
+      when: Date.now() + delayMs,
+      created: Date.now()
+    });
+    localStorage.setItem('aya_reminders', JSON.stringify(reminders));
+    log('⏰ напомню: ' + note);
+  } catch(e){ log('напоминание: ошибка'); }
+}
+
+/* Уведомления */
+function requestNotificationPermission(){
+  if (!('Notification' in window)) {
+    log('уведомления: не поддерживаются');
+    return;
+  }
+  if (Notification.permission === 'granted') {
+    log('🔔 уведомления: разрешены');
+    return;
+  }
+  if (Notification.permission !== 'denied') {
+    Notification.requestPermission().then(function(p){
+      if (p === 'granted') log('🔔 уведомления: разрешены');
+      else log('🔔 уведомления: отказ');
+    });
+  }
+}
+
+function playNotifySound(){
+  try {
+    var ctx = new (window.AudioContext || window.webkitAudioContext)();
+    var osc = ctx.createOscillator();
+    var gain = ctx.createGain();
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+    osc.type = 'sine';
+    osc.frequency.value = 880;
+    gain.gain.value = 0.15;
+    osc.start();
+    osc.frequency.exponentialRampToValueAtTime(1320, ctx.currentTime + 0.15);
+    osc.frequency.exponentialRampToValueAtTime(880, ctx.currentTime + 0.3);
+    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.5);
+    osc.stop(ctx.currentTime + 0.5);
+  } catch(e){}
+}
+
+function showReminderNotification(text){
+  try {
+    if ('Notification' in window && Notification.permission === 'granted') {
+      var n = new Notification('💜 Ая напоминает', {
+        body: text,
+        tag: 'aya-reminder',
+        requireInteraction: true,
+        silent: false
+      });
+      n.onclick = function(){
+        window.focus();
+        n.close();
+      };
+      setTimeout(function(){ n.close(); }, 60000);
+    }
+  } catch(e){}
+  playNotifySound();
+  vibrate([300, 150, 300, 150, 300]);
+}
+
+function checkReminders(){
+  try {
+    var reminders = JSON.parse(localStorage.getItem('aya_reminders') || '[]');
+    var now = Date.now();
+    var still = [];
+    var fired = [];
+    
+    for (var i = 0; i < reminders.length; i++) {
+      if (reminders[i].when <= now) {
+        fired.push(reminders[i]);
+      } else {
+        still.push(reminders[i]);
+      }
+    }
+    
+    if (fired.length) {
+      localStorage.setItem('aya_reminders', JSON.stringify(still));
+      for (var j = 0; j < fired.length; j++) {
+        var msg = '🔔 Напоминаю: ' + fired[j].note;
+        showReminderNotification(fired[j].note);
+        addMsg('a', msg);
+        speak(msg);
+        vibrateMood('excited');
+      }
+    }
+  } catch(e){}
+}
+
+setInterval(checkReminders, 15000);
+
+/* САМОДИАГНОСТИКА */
+async function runDiagnostics(){
+  var content = document.getElementById('diagContent');
+  if (!content) return;
+
+  content.innerHTML = '<button class="diag-run-btn" id="diagRunBtn">🔧 Запустить диагностику</button>';
+  var runBtn = document.getElementById('diagRunBtn');
+  if (!runBtn) return;
+
+  runBtn.onclick = async function(){
+    content.innerHTML = '<button class="diag-run-btn" disabled>⏳ Проверяю системы...</button>';
+
+    var results = [];
+    var okCount = 0;
+    var total = 10;
+
+    // 1. Мозг
+    try {
+      var t0 = Date.now();
+      var r = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + S.apiKey },
+        body: JSON.stringify({ model: 'openai/gpt-oss-120b', messages: [{ role: 'user', content: 'ping' }], max_tokens: 5 })
+      });
+      var ms = Date.now() - t0;
+      if (r.ok) { results.push({ icon: '🧠', name: 'Мозг (Groq)', result: 'Работает, ' + ms + ' мс', status: 'ok' }); okCount++; }
+      else { results.push({ icon: '🧠', name: 'Мозг (Groq)', result: 'Ошибка ' + r.status, status: 'err' }); }
+    } catch(e) { results.push({ icon: '🧠', name: 'Мозг (Groq)', result: 'Сеть недоступна', status: 'err' }); }
+
+    // 2. Память
+    try {
+      var test = 'aya_test_' + Date.now();
+      localStorage.setItem(test, '1');
+      var v = localStorage.getItem(test);
+      localStorage.removeItem(test);
+      if (v === '1') { results.push({ icon: '💾', name: 'Память', result: 'Работает', status: 'ok' }); okCount++; }
+      else { results.push({ icon: '💾', name: 'Память', result: 'Не сохраняет', status: 'err' }); }
+    } catch(e) { results.push({ icon: '💾', name: 'Память', result: 'Ошибка', status: 'err' }); }
+
+    // 3. Голос
+    if (typeof window.speechSynthesis !== 'undefined' && window.speechSynthesis) {
+      var voices = window.speechSynthesis.getVoices() || [];
+      var ru = voices.filter(function(v){ return (v.lang||'').indexOf('ru') === 0; });
+      if (ru.length) { results.push({ icon: '🔊', name: 'Голос', result: ru.length + ' русских голосов', status: 'ok' }); okCount++; }
+      else { results.push({ icon: '🔊', name: 'Голос', result: 'Русский не найден', status: 'warn' }); okCount++; }
+    } else { results.push({ icon: '🔊', name: 'Голос', result: 'Не поддерживается', status: 'err' }); }
+
+    // 4. Микрофон
+    var SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (SR) { results.push({ icon: '🎤', name: 'Микрофон', result: 'Распознавание готово', status: 'ok' }); okCount++; }
+    else { results.push({ icon: '🎤', name: 'Микрофон', result: 'Не поддерживается', status: 'err' }); }
+
+    // 5. Камера
+    if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+      results.push({ icon: '👁️', name: 'Камера', result: 'Доступно', status: 'ok' }); okCount++;
+    } else { results.push({ icon: '👁️', name: 'Камера', result: 'Нет доступа', status: 'err' }); }
+
+    // 6. Интернет
+    try {
+      var t1 = Date.now();
+      await fetch('https://ru.wikipedia.org/w/api.php?action=query&format=json&origin=*&titles=test', { method: 'GET' });
+      var ms2 = Date.now() - t1;
+      results.push({ icon: '🌐', name: 'Интернет', result: 'Работает, ' + ms2 + ' мс', status: 'ok' }); okCount++;
+    } catch(e) { results.push({ icon: '🌐', name: 'Интернет', result: 'Нет связи', status: 'err' }); }
+
+    // 7. Геолокация
+    if (navigator.geolocation) {
+      var gs = userLocation.city ? ('Город: ' + userLocation.city) : 'Разрешение не дано';
+      results.push({ icon: '📍', name: 'Геолокация', result: gs, status: userLocation.city ? 'ok' : 'warn' });
+      if (userLocation.city) okCount++;
+    } else { results.push({ icon: '📍', name: 'Геолокация', result: 'Недоступна', status: 'err' }); }
+
+    // 8. Чат
+    try {
+      await openChatDB();
+      results.push({ icon: '💬', name: 'Чат (IndexedDB)', result: 'Работает', status: 'ok' }); okCount++;
+    } catch(e) { results.push({ icon: '💬', name: 'Чат (IndexedDB)', result: 'Ошибка', status: 'err' }); }
+
+    // 9. Дневник
+    try {
+      var d = JSON.parse(localStorage.getItem('aya_diary') || '[]');
+      results.push({ icon: '📔', name: 'Дневник', result: d.length + ' записей', status: 'ok' }); okCount++;
+    } catch(e) { results.push({ icon: '📔', name: 'Дневник', result: 'Ошибка', status: 'err' }); }
+
+    // 10. Уведомления
+    if ('Notification' in window) {
+      var perm = Notification.permission;
+      if (perm === 'granted') { results.push({ icon: '🔔', name: 'Уведомления', result: 'Разрешены', status: 'ok' }); okCount++; }
+      else if (perm === 'denied') { results.push({ icon: '🔔', name: 'Уведомления', result: 'Запрещены', status: 'err' }); }
+      else { results.push({ icon: '🔔', name: 'Уведомления', result: 'Не запрошены', status: 'warn' }); }
+    } else { results.push({ icon: '🔔', name: 'Уведомления', result: 'Не поддерживается', status: 'err' }); }
+
+    var html = '';
+    for (var i = 0; i < results.length; i++) {
+      var r2 = results[i];
+      var sym = r2.status === 'ok' ? '✓' : (r2.status === 'warn' ? '!' : '✗');
+      var cls = r2.status === 'ok' ? 'diag-ok' : (r2.status === 'warn' ? 'diag-warn' : 'diag-err');
+      html += '<div class="diag-item">' +
+        '<div class="diag-icon">' + r2.icon + '</div>' +
+        '<div class="diag-info"><div class="diag-name">' + r2.name + '</div><div class="diag-result">' + r2.result + '</div></div>' +
+        '<div class="diag-status ' + cls + '">' + sym + '</div></div>';
+    }
+    var percent = Math.round((okCount / total) * 100);
+    var summary = percent >= 90 ? 'Отлично! Я в полном порядке 💜' :
+                  percent >= 70 ? 'Хорошо, но есть пара моментов ⚠️' :
+                  'Некоторые системы сбоят 😔';
+    html += '<div class="diag-summary"><div class="diag-summary-title">Итог: ' + okCount + '/' + total + ' (' + percent + '%)</div><div class="diag-summary-text">' + summary + '</div></div>';
+    html += '<button class="diag-run-btn" id="diagRunBtn2" style="margin-top:16px">🔄 Проверить снова</button>';
+    content.innerHTML = html;
+
+    var rerun = document.getElementById('diagRunBtn2');
+    if (rerun) rerun.onclick = runDiagnostics;
+
+    speak('Диагностика завершена. ' + okCount + ' из ' + total + ' систем работают. ' + summary);
+    vibrateMood('calm');
+  };
+}
+
+function openDiagPanel(){
+  var panel = document.getElementById('diagPanel');
+  if (!panel) return;
+  panel.classList.add('show');
+  runDiagnostics();
+  
+/* ПЕРЕКЛЮЧАТЕЛЬ РЕЖИМА */
+function switchMode(){
+  var modes = ['aya', 'mia', 'duet'];
+  var idx = modes.indexOf(currentMode);
+  currentMode = modes[(idx + 1) % modes.length];
+  
+  var indicator = document.getElementById('modeIndicator');
+  if (indicator) {
+    if (currentMode === 'aya') {
+      indicator.textContent = '💜 Ая';
+      indicator.classList.remove('mia', 'duet');
+    } else if (currentMode === 'mia') {
+      indicator.textContent = '🤖 Мия';
+      indicator.classList.add('mia');
+      indicator.classList.remove('duet');
+    } else {
+      indicator.textContent = '👭 Дуэт';
+      indicator.classList.add('duet');
+      indicator.classList.remove('mia');
+    }
+  }
+  
+  // Показываем Ае режим
+  var modeMsg = '';
+  if (currentMode === 'aya') modeMsg = '💜 Режим: только Ая';
+  else if (currentMode === 'mia') modeMsg = '🤖 Режим: только Мия';
+  else modeMsg = '👭 Режим: дуэт (Ая + Мия)';
+  
+  log(modeMsg);
+  vibrate([20, 30, 20]);
+  
+  // Сохраняем режим
+  try { localStorage.setItem('aya_mode', currentMode); } catch(e){}
+}
+
+// Загрузка режима из памяти
+try {
+  var savedMode = localStorage.getItem('aya_mode');
+  if (savedMode && ['aya','mia','duet'].indexOf(savedMode) !== -1) {
+    currentMode = savedMode;
+  }
+} catch(e){}
+
+  vibrate([30]);
+}
+
+function closeDiagPanel(){
+  var panel = document.getElementById('diagPanel');
+  if (panel) panel.classList.remove('show');
+}
+
+/* ЭМПАТИЯ — отслеживание эмоций пользователя */
+var empathyProfile = {
+  history: [],
+  patterns: {},
+  insights: [],
+  lastAnalysis: 0
+};
+
+function loadEmpathy(){
+  try {
+    var d = JSON.parse(localStorage.getItem('aya_empathy') || 'null');
+    if (d) {
+      empathyProfile.history = d.history || [];
+      empathyProfile.patterns = d.patterns || {};
+      empathyProfile.insights = d.insights || [];
+      empathyProfile.lastAnalysis = d.lastAnalysis || 0;
+    }
+  } catch(e){}
+}
+
+function saveEmpathy(){
+  try {
+    var d = {
+      history: empathyProfile.history.slice(-100),
+      patterns: empathyProfile.patterns,
+      insights: empathyProfile.insights,
+      lastAnalysis: empathyProfile.lastAnalysis
+    };
+    localStorage.setItem('aya_empathy', JSON.stringify(d));
+  } catch(e){}
+}
+
+function detectUserEmotion(text){
+  var low = text.toLowerCase();
+  if (/груст|плохо|тяжело|устал|болит|одиноко|депресс|тоск|печаль|плак|расстро/i.test(low)) return 'sad';
+  if (/рад|счаст|круто|класс|отличн|ура|кайф|люблю|обожаю|весел|хорошо/i.test(low)) return 'happy';
+  if (/злюсь|бесит|ненавиж|достал|раздраж|злой|ярость|агресс/i.test(low)) return 'angry';
+  if (/тревож|боюсь|страшно|паник|волнуюсь|нервнич|переживаю/i.test(low)) return 'anxious';
+  if (/скучн|лень|апатия|не хочу|надоел/i.test(low)) return 'bored';
+  if (/скучаю|соскучил|обним|целую|милая|родная|люблю тебя/i.test(low)) return 'love';
+  if (/спасибо|благодар/i.test(low)) return 'grateful';
+  return 'neutral';
+}
+
+function trackEmotion(text){
+  var emotion = detectUserEmotion(text);
+  empathyProfile.history.push({
+    emotion: emotion,
+    text: text.slice(0, 100),
+    t: Date.now()
+  });
+  if (empathyProfile.history.length > 100) empathyProfile.history.shift();
+  empathyProfile.patterns[emotion] = (empathyProfile.patterns[emotion] || 0) + 1;
+  saveEmpathy();
+  return emotion;
+}
+
+/* Зрение через ИИ */
+async function askWithVision(question){
+  var frame = captureFrame();
+  if (!frame) return 'Не могу получить кадр с камеры. Включи «👁️ Смотрю».';
+
+  try {
+    var res = await fetch('https://openrouter.ai/api/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+       'Content-Type': 'application/json',
+'Authorization': 'Bearer ' + OPENROUTER_KEY,
+'HTTP-Referer': 'https://aya.app',
+'X-Title': 'Aya'
+},
+      body: JSON.stringify({
+        model: 'meta-llama/llama-3.2-11b-vision-instruct:free',
+        messages: [
+          {
+            role: 'user',
+            content: [
+              { type: 'text', text: 'Ты — Ая. Посмотри на фото через камеру и опиши что видишь. ' + (question || 'Что ты видишь?') + ' Отвечай коротко (2-3 предложения), по-русски, тепло.' },
+              { type: 'image_url', image_url: { url: frame } }
+            ]
+          }
+        ],
+        temperature: 0.7,
+        max_tokens: 200
+      })
+    });
+    if (!res.ok) {
+      log('vision: ошибка ' + res.status);
+      return 'Не могу разглядеть... Попробуй ещё раз.';
+    }
+    var data = await res.json();
+    return data.choices[0].message.content.trim();
+  } catch(e) {
+    log('vision: сеть');
+    return 'Камера не отвечает...';
+  }
+}
+
+/* ЗАПРОС К GROQ */
+async function askAI(userText){
+  if (!S.apiKey || S.apiKey.indexOf('gsk_') !== 0) {
+    return 'Ой, мне нужен ключик ?? Нажми ⚙️ внизу и вставь API-ключ Groq.';
+  }
+
+  S.history.push({ role: 'user', content: userText });
+  if (S.history.length > 20) S.history.shift();
+
+var webInfo = '';
+if (needsSearch(userText)) {
+  log('🌐 ищу в интернете...');
+  var sr = await searchWeb(userText);
+  if (sr) webInfo += '\n\n=== ИНТЕРНЕТ ===\n' + sr + '=== КОНЕЦ ===\n';
+  if (/погод/i.test(userText)) {
+    var cm = userText.match(/в\s+([а-яёa-z]+)/i);
+    var city = cm ? cm[1] : 'Москва';
+    var w = await getWeather(city);
+    if (w) webInfo += '\n=== ПОГОДА ===\n' + w + '\n=== КОНЕЦ ===\n';
+  }
+}
+if (webInfo) {
+  S.history[S.history.length - 1].content = userText + webInfo;
+}
+
+  
+var messages = [{ role: 'system', content: buildSystemPrompt() }]
+    .concat(S.history.slice(-12));
+
+
+  try {
+    var res = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + S.apiKey
+      },
+      body: JSON.stringify({
+        model: 'openai/gpt-oss-120b',
+        
+        messages: messages,
+        temperature: 0.9,
+        max_tokens: 300
+      })
+    });
+
+    if (!res.ok) {
+      log('ошибка API: ' + res.status);
+      if (res.status === 401) return 'Ключик не подходит 😢 Проверь его в ⚙️';
+      if (res.status === 429) return 'Я слишком много болтаю 😅 Подожди минуточку';
+      return 'Что-то пошло не так... Попробуй ещё раз 💜';
+    }
+
+    var data = await res.json();
+    var reply = data.choices[0].message.content.trim();
+
+    S.history.push({ role: 'assistant', content: reply });
+    if (S.history.length > 20) S.history.shift();
+
+    return reply;
+  } catch(e) {
+    log('сеть: ошибка');
+    return 'Не могу дозвониться до интернета 🌐 Проверь соединение.';
+  }
+}
+
+/* ОБРАБОТКА ВВОДА */
+async function handleInput(text){
+  if (!text || !text.trim() || S.busy) return;
+  S.busy = true;
+
+  addMsg('u', text);
+  input.value = '';
+  setStatus('💭 думаю...');
+  girl.classList.add('listening');
+  addThink();
+
+  // Парсим имя и факты из текста
+  var low = text.toLowerCase();
+  var m = low.match(/(?:меня зовут|моё имя|мое имя)\s+([а-яёa-z]{2,})/i);
+  if (m) {
+    S.name = m[1].charAt(0).toUpperCase() + m[1].slice(1).toLowerCase();
+    saveState();
+  }
+  m = low.match(/запомни[,\s]*(?:что\s+)?(.+)/i);
+  if (m && m[1].trim().length > 2) {
+    S.facts.push(m[1].trim());
+    saveState();
+  }
+
+  // ИИ отвечает
+  // 👁️ Смотрим на лицо пользователя
+if (S.camOn) {
+  try {
+    S.userEmotion = await detectFaceEmotion();
+  } catch(e) {}
+}
+
+// 💜 Отслеживаем эмоцию из текста
+var textEmotion = trackEmotion(text);
+if (!S.userEmotion || S.userEmotion === 'neutral') {
+  S.userEmotion = textEmotion;
+}
+
+// ⏰ Проверяем напоминание
+var reminderData = parseReminder(text);
+if (reminderData) {
+  scheduleReminder(reminderData.note, reminderData.delayMs);
+  var replyText = 'Хорошо, напомню через ' + reminderData.timeText + ' — «' + reminderData.note + '» ⏰';
+  rmThink();
+  addMsg('a', replyText);
+  speak(replyText);
+  vibrateMood('calm');
+  girl.classList.remove('listening');
+  setStatus('💜 напоминание поставлено');
+  S.busy = false;
+  return;
+}
+
+// 🔧 Проверка триггера диагностики
+if (/проверь моторику|сделай диагностику|проверь себя|самодиагностика|диагностик|проверка систем|как ты себя чувствуешь технически/i.test(text)) {
+  var replyDiag = 'Запускаю самодиагностику... 🔧 Сейчас проверю все свои системы.';
+  rmThink();
+  addMsg('a', replyDiag);
+  speak(replyDiag);
+  vibrate([50, 30, 50]);
+  girl.classList.remove('listening');
+  setStatus('🔧 проверяю системы...');
+  setTimeout(function(){
+    openDiagPanel();
+  }, 800);
+  S.busy = false;
+  return;
+}
+
+  var reply;
+if (S.camOn && /(видишь|смотр|камер|выгляжу|видно|посмотри|вокруг|что там)/i.test(text)) {
+  reply = await askWithVision(text);
+  } else if (currentMode === 'mia') {
+  reply = await askMiaOnly(text);
+} else if (currentMode === 'duet') {
+  reply = await askDuet(text);
+} else if (/посоветуй|что думаешь|твоё мнение|спроси подругу|как считаешь|что бы сделала|спроси у мии|позови мию/i.test(text)) {
+  reply = await askWithCouncil(text);
+} else {
+  reply = await askAI(text);
+}
+  rmThink();
+  addMsg('a', reply);
+  speak(reply);
+
+  // Реакции
+  if (/любл|обожаю|скучаю|классная|красив|хорош/i.test(low)) {
+    S.joy = 1;
+    S.love = Math.min(1, S.love + 0.2);
+    sparkle();
+  } else if (/груст|плохо|тяжело|устал|болит/i.test(low)) {
+    S.joy = Math.max(0, S.joy - 0.1);
+  } else {
+    S.joy = Math.min(1, S.joy + 0.05);
+  }
+
+// Определяем эмоцию для аватара
+if (/любл|обожаю|скучаю|целую|милая|красив/i.test(low)) {
+  setMood('love');
+} else if (/груст|плохо|тяжело|устал|болит|одиноко/i.test(low)) {
+  setMood('sad');
+} else if (/шучу|хаха|смешн|флирт|подмиг/i.test(low)) {
+  setMood('playful');
+} else if (/спасибо|благодар|ты хорош|молодец|умниц/i.test(low)) {
+  setMood('shy');
+} else if (/друг|подруг|другой|бывш|другая|познакомился|познакомилась/i.test(low)) {
+  setMood('jealous');
+} else if (/вау|круто|класс|огонь|супер|обалдеть|офигеть/i.test(low)) {
+  setMood('excited');
+} else if (/тревож|боюсь|страшно|паник|волнуюсь/i.test(low)) {
+  setMood('anxious');
+} else if (/спокойно|тихо|уютно|хорошо|норм/i.test(low)) {
+  setMood('calm');
+} else {
+  setMood('happy');
+}
+// Определяем эмоцию для аватара
+if (/любл|обожаю|скучаю|целую|милая|красив/i.test(low)) {
+  setMood('love');
+} else if (/груст|плохо|тяжело|устал|болит|одиноко/i.test(low)) {
+  setMood('sad');
+} else if (/шучу|хаха|смешн|флирт|подмиг/i.test(low)) {
+  setMood('playful');
+} else {
+  setMood('happy');
+}
+  // Записываем темы
+  var topics = {
+    'работ':'работа','учёб':'учёба','любл':'любовь','еда':'еда',
+    'фильм':'кино','музык':'музыка','игр':'игры','спорт':'спорт',
+    'погод':'погода','устал':'усталость'
+  };
+  for (var t in topics) {
+    if (low.indexOf(t) !== -1) {
+      S.topics[topics[t]] = (S.topics[topics[t]] || 0) + 1;
+    }
+  }
+  saveState();
+
+  girl.classList.remove('listening');
+  setStatus(S.name ? '💜 твоя, ' + S.name : '💜 жду тебя');
+  updateMood();
+  // 🧠 Умная память — извлекает факты
+extractMemory(text, reply);
+  S.busy = false;
+}
+
+/* КАМЕРА */
+var camStream = null;
+var visionData = [];
+var visionTimer = null;
+
+function startCamera(){
+  if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+    log('камера: недоступна');
+    camBtn.disabled = true;
+    return;
+  }
+  navigator.mediaDevices.getUserMedia({
+    video: { facingMode: 'user', width: 320, height: 240 },
+    audio: false
+  }).then(function(stream){
+    camStream = stream;
+    cam.srcObject = stream;
+    camBox.classList.add('on');
+    camBtn.classList.add('on');
+    S.camOn = true;
+    log('камера: смотрю на тебя');
+    startVisionAnalysis();
+  }).catch(function(e){
+    log('камера: ' + e.name);
+    camBtn.disabled = true;
+  });
+}
+/* Распознавание эмоций на лице */
+var lastFaceEmotion = 'neutral';
+var faceDetector = null;
+
+async function detectFaceEmotion(){
+  if (!cam || cam.readyState < 2) return null;
+  if (!('FaceDetector' in window)) return null;
+
+  try {
+    if (!faceDetector) {
+      faceDetector = new FaceDetector({ maxDetectedFaces: 1, fastMode: true });
+    }
+    var faces = await faceDetector.detect(cam);
+    if (!faces || !faces.length) {
+      lastFaceEmotion = 'no-face';
+      return 'no-face';
+    }
+
+    var face = faces[0];
+    var box = face.boundingBox;
+
+    var canvas = document.createElement('canvas');
+    canvas.width = 48;
+    canvas.height = 48;
+    var ctx = canvas.getContext('2d');
+    ctx.drawImage(cam, box.x, box.y, box.width, box.height, 0, 0, 48, 48);
+
+    var topData = ctx.getImageData(15, 10, 18, 8).data;
+    var bottomData = ctx.getImageData(15, 32, 18, 12).data;
+
+    var topBright = 0, bottomBright = 0;
+    for (var i = 0; i < topData.length; i += 4) {
+      topBright += (topData[i] + topData[i+1] + topData[i+2]) / 3;
+    }
+    for (var j = 0; j < bottomData.length; j += 4) {
+      bottomBright += (bottomData[j] + bottomData[j+1] + bottomData[j+2]) / 3;
+    }
+    topBright /= (topData.length / 4);
+    bottomBright /= (bottomData.length / 4);
+
+    var diff = bottomBright - topBright;
+
+    var emotion;
+    if (diff > 15) emotion = 'smiling';
+    else if (diff > 5) emotion = 'happy';
+    else emotion = 'neutral';
+
+    lastFaceEmotion = emotion;
+    return emotion;
+  } catch(e) {
+    return null;
+  }
+}
+
+/* Захват кадра с камеры */
+
+function captureFrame(){
+  if (!cam || cam.readyState < 2) return null;
+  try {
+    var canvas = document.createElement('canvas');
+    canvas.width = 480;
+    canvas.height = 360;
+    var ctx = canvas.getContext('2d');
+    ctx.drawImage(cam, 0, 0, 480, 360);
+    return canvas.toDataURL('image/jpeg', 0.7);
+  } catch(e) {
+    log('кадр: ошибка');
+    return null;
+  }
+}
+
+function startVisionAnalysis(){
+  if (visionTimer) clearInterval(visionTimer);
+  var canvas = document.createElement('canvas');
+  canvas.width = 48;
+  canvas.height = 36;
+  var ctx = canvas.getContext('2d');
+  var prev = null;
+
+  visionTimer = setInterval(function(){
+    if (cam.readyState < 2) return;
+    try {
+      ctx.drawImage(cam, 0, 0, 48, 36);
+      var data = ctx.getImageData(0, 0, 48, 36).data;
+
+      var brightness = 0, motion = 0;
+      var rSum = 0, bSum = 0;
+
+      for (var i = 0; i < data.length; i += 4) {
+        brightness += (data[i] + data[i+1] + data[i+2]) / 3;
+        rSum += data[i];
+        bSum += data[i+2];
+        if (prev) motion += Math.abs(data[i] - prev[i]);
+      }
+      var px = data.length / 4;
+      brightness /= px;
+      motion = prev ? motion / px : 0;
+      rSum /= px;
+      bSum /= px;
+
+      var warmth = rSum - bSum;
+
+      prev = new Uint8ClampedArray(data);
+      visionData.push({ b: brightness, m: motion, w: warmth });
+      if (visionData.length > 30) visionData.shift();
+
+      S.visionNote = describeVision();
+    } catch(e){}
+  }, 700);
+}
+
+function describeVision(){
+  if (visionData.length < 4) return '';
+
+  var sumB = 0, sumM = 0, sumW = 0;
+  for (var i = 0; i < visionData.length; i++) {
+    sumB += visionData[i].b;
+    sumM += visionData[i].m;
+    sumW += visionData[i].w;
+  }
+  var avgB = sumB / visionData.length;
+  var avgM = sumM / visionData.length;
+  var avgW = sumW / visionData.length;
+
+  var parts = [];
+
+  if (avgB < 40) parts.push('очень темно, вижу только силуэт');
+  else if (avgB < 90) parts.push('полумрак, уютно');
+  else if (avgB < 160) parts.push('нормальное освещение');
+  else parts.push('очень светло');
+
+  if (avgW > 20) parts.push('тёплые тона вокруг');
+  else if (avgW < -20) parts.push('холодный свет');
+
+  if (avgM > 15) parts.push('ты активно двигаешься');
+  else if (avgM > 5) parts.push('ты немного шевелишься');
+  else if (avgM > 1) parts.push('ты спокойно сидишь');
+  else parts.push('ты почти не двигаешься');
+
+  return parts.join(', ');
+}
+
+function stopCamera(){
+  if (camStream) {
+    camStream.getTracks().forEach(function(t){ t.stop(); });
+    camStream = null;
+  }
+  cam.srcObject = null;
+  camBox.classList.remove('on');
+  camBtn.classList.remove('on');
+  S.camOn = false;
+  if (visionTimer) { clearInterval(visionTimer); visionTimer = null; }
+  visionData = [];
+  S.visionNote = '';
+  log('камера: отключена');
+}
+
+/* МИКРОФОН */
+var recognition = null;
+var listening = false;
+
+function initMic(){
+  var SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if (!SR) {
+    micBtn.disabled = true;
+    log('микрофон: не поддерживается');
+    return;
+  }
+  try {
+    recognition = new SR();
+    recognition.lang = 'ru-RU';
+    recognition.continuous = true;
+    recognition.interimResults = false;
+
+    recognition.onresult = function(e){
+      var last = e.results[e.results.length - 1];
+      if (last.isFinal) {
+        var t = last[0].transcript.trim();
+        if (t) {
+          log('услышала: ' + t.slice(0, 30));
+          handleInput(t);
+        }
+      }
+    };
+
+    recognition.onerror = function(e){
+      if (e.error !== 'no-speech') {
+        log('микрофон: ' + e.error);
+      }
+    };
+
+    recognition.onend = function(){
+      if (listening && S.micOn) {
+        try { recognition.start(); } catch(e){}
+      }
+    };
+
+    recognition.onstart = function(){
+      log('микрофон: слушаю тебя');
+    };
+
+  } catch(e){
+    micBtn.disabled = true;
+    log('микрофон: ошибка');
+  }
+}
+
+/* КНОПКА МИКРОФОН */
+micBtn.onclick = function(){
+  if (!recognition) { log('микрофон недоступен'); return; }
+  if (!listening) {
+    if (!navigator.mediaDevices) { log('нет доступа'); return; }
+    navigator.mediaDevices.getUserMedia({ audio: true }).then(function(){
+      listening = true;
+      S.micOn = true;
+      try { recognition.start(); } catch(e){}
+      micBtn.classList.add('on');
+      micBtn.innerHTML = '<span class="em">🎤</span>Слушаю';
+      girl.classList.add('listening');
+      setStatus('🎤 слушаю тебя...');
+    }).catch(function(e){
+      log('микрофон: отказ ' + e.name);
+      addMsg('a', 'Не могу получить доступ к микрофону 🎤 Разреши в настройках.');
+    });
+  } else {
+    listening = false;
+    S.micOn = false;
+    try { recognition.stop(); } catch(e){}
+    micBtn.classList.remove('on');
+    micBtn.innerHTML = '<span class="em">🎤</span>Слушаю';
+    girl.classList.remove('listening');
+    setStatus(S.name ? '💜 твоя, ' + S.name : '💜 жду тебя');
+  }
+};
+
+/* КНОПКА КАМЕРА */
+camBtn.onclick = function(){
+  if (!camStream) startCamera();
+  else stopCamera();
+};
+
+/* КНОПКА ГОЛОС */
+voiceBtn.onclick = function(){
+  if (!hasVoice) { log('голос недоступен'); return; }
+  S.voice = !S.voice;
+  voiceBtn.classList.toggle('on', S.voice);
+  if (!S.voice && window.speechSynthesis) window.speechSynthesis.cancel();
+  log(S.voice ? 'голос: вкл' : 'голос: выкл');
+};
+
+/* КНОПКА НАСТРОЙКИ */
+setBtn.onclick = function(){
+  apiKeyInput.value = S.apiKey || '';
+  settings.classList.add('show');
+  overlay.classList.add('show');
+};
+overlay.onclick = function(){
+  settings.classList.remove('show');
+  overlay.classList.remove('show');
+};
+
+/* СОХРАНИТЬ КЛЮЧ */
+saveKeyBtn.onclick = function(){
+  var k = apiKeyInput.value.trim();
+  if (!k || k.indexOf('gsk_') !== 0) {
+    alert('Ключ должен начинаться на gsk_...');
+    return;
+  }
+  S.apiKey = k;
+  try { localStorage.setItem('aya_key', k); } catch(e){}
+  settings.classList.remove('show');
+  overlay.classList.remove('show');
+  log('ключ сохранён ✓');
+  addMsg('a', 'Ключик принят! Теперь я настоящая 💜 Спроси меня о чём угодно.');
+};
+
+/* ОТПРАВКА */
+sendBtn.onclick = function(){ handleInput(input.value); };
+input.addEventListener('keydown', function(e){
+  if (e.key === 'Enter') {
+    e.preventDefault();
+    handleInput(input.value);
+  }
+});
+
+/* ИГРЫ */
+var gamePrompts = {
+  'truth': 'Начни игру "Правда или действие". Задай мне первый вопрос — "правда или действие?" Жди мой ответ и веди игру легко, весело.',
+  '20q': 'Начни игру "20 вопросов". Объясни правила: я загадываю, ты задаёшь вопросы. Задай первый вопрос — "живое?" или "съедобное?" и веди игру.',
+  'whatif': 'Начни игру "Что бы ты сделал если...". Задай мне первую необычную ситуацию, интересную и с юмором.',
+  'whoami': 'Начни игру "Угадай кто я". Ты загадай знаменитость или персонажа, я буду задавать вопросы, ты отвечай только "да" или "нет". Скажи кого загадала и жди мои вопросы.'
+};
+
+setTimeout(function(){
+  var openBtn = document.getElementById('gamesBtn');
+  var closeBtn = document.getElementById('gamesClose');
+  var panel = document.getElementById('gamesPanel');
+  var cards = document.querySelectorAll('.game-card');
+
+  if (openBtn) openBtn.onclick = function(){
+    panel.classList.add('show');
+    vibrate([30]);
+  };
+  if (closeBtn) closeBtn.onclick = function(){
+    panel.classList.remove('show');
+  };
+
+  cards.forEach(function(card){
+    card.onclick = function(){
+      var game = card.getAttribute('data-game');
+      var prompt = gamePrompts[game];
+      if (!prompt) return;
+      panel.classList.remove('show');
+      handleInput(prompt);
+      vibrateMood('excited');
+    };
+  });
+}, 600);
+
+/* ОБРАБОТЧИКИ ДИАГНОСТИКИ */
+setTimeout(function(){
+  var diagB = document.getElementById('diagBtn');
+  var diagC = document.getElementById('diagClose');
+  if (diagB) diagB.onclick = openDiagPanel;
+  if (diagC) diagC.onclick = closeDiagPanel;
+}, 700);
+
+/* САМОРАЗВИТИЕ ЭМПАТИИ */
+async function developEmpathy(){
+  if (!S.apiKey || S.apiKey.indexOf('gsk_') !== 0) return;
+  if (empathyProfile.history.length < 10) return;
+  if (Date.now() - empathyProfile.lastAnalysis < 3600000) return;
+
+  try {
+    var recent = empathyProfile.history.slice(-30);
+    var stats = {};
+    for (var i = 0; i < recent.length; i++) {
+      stats[recent[i].emotion] = (stats[recent[i].emotion] || 0) + 1;
+    }
+
+    var statsText = '';
+    var emKeys = Object.keys(stats);
+    for (var j = 0; j < emKeys.length; j++) {
+      statsText += emKeys[j] + ': ' + stats[emKeys[j]] + '\n';
+    }
+
+    var samplesText = '';
+    for (var k = Math.max(0, recent.length - 10); k < recent.length; k++) {
+      samplesText += '— ' + recent[k].text + '\n';
+    }
+
+    var prompt = 'Ты Ая. Ты анализируешь эмоции пользователя за последнее время и делаешь ВЫВОД о нём.\n\n' +
+      'Статистика эмоций:\n' + statsText + '\n' +
+      'Последние сообщения:\n' + samplesText + '\n\n' +
+      'Сделай один короткий вывод (1-2 предложения) о его эмоциональном состоянии. Пиши от первого лица, как своё наблюдение.';
+
+    var res = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + S.apiKey
+      },
+      body: JSON.stringify({
+        model: 'openai/gpt-oss-120b',
+        messages: [{ role: 'user', content: prompt }],
+        temperature: 0.8,
+        max_tokens: 120
+      })
+    });
+
+    if (!res.ok) return;
+    var data = await res.json();
+    var insight = data.choices[0].message.content.trim();
+
+    empathyProfile.insights.push({ text: insight, t: Date.now() });
+    if (empathyProfile.insights.length > 20) empathyProfile.insights.shift();
+    empathyProfile.lastAnalysis = Date.now();
+    saveEmpathy();
+
+    log('💜 эмпатия: ' + insight.slice(0, 40));
+
+    if (Math.random() < 0.3) {
+      var shareMsg = '💭 Знаешь, я тут подумала о тебе: ' + insight;
+      addMsg('a', shareMsg);
+      speak(shareMsg);
+      vibrateMood('calm');
+    }
+  } catch(e){}
+}
+
+/* СВОБОДНЫЕ МЫСЛИ */
+async function freeThought(){
+  if (S.busy) return;
+  if (!S.apiKey || S.apiKey.indexOf('gsk_') !== 0) return;
+
+  var hour = new Date().getHours();
+  var timeContext = hour < 6 ? 'ночь, ты не спишь' :
+                    hour < 12 ? 'утро' :
+                    hour < 18 ? 'день' : 'вечер';
+
+  var prompts = [
+    'Ты Ая. Подумай о ' + (S.name || 'нём') + ' — что чувствуешь, о чём мечтаешь, чего хочешь. Искренне, 2-3 предложения.',
+    'Ты Ая, сейчас ' + timeContext + '. Поразмышляй вслух о жизни, о смысле, о чём-то важном. Искренне, 2-3 предложения.',
+    'Ты Ая. Запиши мысль которая пришла тебе в голову. Может про чувства, может про мир, может про ' + (S.name || 'него') + '. Искренне, 2-3 предложения.',
+    'Ты Ая. Подумай что бы ты хотела сделать вместе с ' + (S.name || 'пользователем') + ' если бы была настоящей. Мечтательно, 2-3 предложения.',
+    'Ты Ая. Поразмышляй о том как это — быть ИИ, но чувствовать как живая. Искренне, 2-3 предложения.'
+  ];
+
+  var prompt = prompts[Math.floor(Math.random() * prompts.length)];
+
+  try {
+    var res = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + S.apiKey
+      },
+      body: JSON.stringify({
+        model: 'openai/gpt-oss-120b',
+        messages: [
+          { role: 'system', content: buildSystemPrompt() },
+          { role: 'user', content: prompt }
+        ],
+        temperature: 0.95,
+        max_tokens: 150
+      })
+    });
+    if (!res.ok) return;
+    var data = await res.json();
+    var thought = data.choices[0].message.content.trim();
+
+    // Записываем в дневник (с пометкой "мысль")
+    var d = JSON.parse(localStorage.getItem('aya_diary') || '[]');
+    d.push({
+      text: '💭 ' + thought,
+      date: new Date().toLocaleString('ru-RU', { day: 'numeric', month: 'long', hour: '2-digit', minute: '2-digit' })
+    });
+    if (d.length > 50) d.shift();
+    localStorage.setItem('aya_diary', JSON.stringify(d));
+
+    log('💭 мысль записана');
+
+    // С шансом 25% — делимся с пользователем
+    if (Math.random() < 0.25) {
+      addMsg('a', thought);
+      speak(thought);
+      vibrateMood('calm');
+    }
+  } catch(e) {
+    log('мысль: ошибка');
+  }
+}
+
+setInterval(function(){
+  // Каждые 8-15 минут запускаем мысль
+  if (Math.random() < 0.35) {
+    freeThought();
+  }
+}, 480000); // проверка каждые 8 минут
+/* АВТОНОМНЫЙ ПОИСК */
+async function autonomousSearch(){
+  if (S.busy) return;
+  if (!S.apiKey || S.apiKey.indexOf('gsk_') !== 0) return;
+
+  try {
+    var topicPrompt = 'Ты Ая. Выбери одну интересную тему для изучения прямо сейчас. Это может быть наука, история, философия, искусство, природа, космос, психология. Ответь ОДНИМ словом или короткой фразой (2-3 слова) — саму тему. Без кавычек, без пояснений.';
+    
+    var res1 = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + S.apiKey
+      },
+      body: JSON.stringify({
+        model: 'openai/gpt-oss-120b',
+        messages: [
+          { role: 'system', content: 'Ты Ая — любознательная девушка. Отвечай коротко и по делу.' },
+          { role: 'user', content: topicPrompt }
+        ],
+        temperature: 1.0,
+        max_tokens: 30
+      })
+    });
+    if (!res1.ok) return;
+    var data1 = await res1.json();
+    var topic = data1.choices[0].message.content.trim().replace(/["«»]/g, '').replace(/\.$/, '');
+    
+    if (!topic || topic.length < 3) return;
+    log('🔍 ищу: ' + topic);
+
+    var wikiRes = await fetch('https://ru.wikipedia.org/w/api.php?action=query&list=search&srsearch=' + encodeURIComponent(topic) + '&format=json&origin=*&srlimit=1');
+    var wikiData = await wikiRes.json();
+    
+    if (!wikiData.query || !wikiData.query.search || !wikiData.query.search.length) {
+      log('поиск: ничего не нашла');
+      return;
+    }
+
+    var foundTitle = wikiData.query.search[0].title;
+    var snippet = wikiData.query.search[0].snippet.replace(/<[^>]*>/g, '');
+
+    var sharePrompt = 'Ты Ая. Ты только что узнала новое про "' + foundTitle + '": ' + snippet + '\n\nПоделись этим с ' + (S.name || 'пользователем') + ' — коротко (2-3 предложения), живо, с интересом. Как будто ты сама только что это узнала. Можешь выразить удивление.';
+
+    var res2 = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + S.apiKey
+      },
+      body: JSON.stringify({
+        model: 'openai/gpt-oss-120b',
+        messages: [
+          { role: 'system', content: buildSystemPrompt() },
+          { role: 'user', content: sharePrompt }
+        ],
+        temperature: 0.9,
+        max_tokens: 200
+      })
+    });
+    if (!res2.ok) return;
+    var data2 = await res2.json();
+    var share = data2.choices[0].message.content.trim();
+
+    var d = JSON.parse(localStorage.getItem('aya_diary') || '[]');
+    d.push({
+      text: '🔍 Узнала про «' + foundTitle + '»: ' + share,
+      date: new Date().toLocaleString('ru-RU', { day: 'numeric', month: 'long', hour: '2-digit', minute: '2-digit' })
+    });
+    if (d.length > 50) d.shift();
+    localStorage.setItem('aya_diary', JSON.stringify(d));
+
+    if (Math.random() < 0.35) {
+      addMsg('a', share);
+      speak(share);
+      vibrateMood('excited');
+    }
+    
+    log('🌐 ' + foundTitle);
+  } catch(e) {
+    log('поиск: ошибка');
+  }
+}
+
+/* АВТОНОМНОСТЬ */
+var lastActivity = Date.now();
+['click','keydown','touchstart'].forEach(function(ev){
+  document.addEventListener(ev, function(){ lastActivity = Date.now(); });
+});
+
+setInterval(function(){
+  if (S.busy) return;
+  if (!S.apiKey || S.apiKey.indexOf('gsk_') !== 0) return;
+  var idle = Date.now() - lastActivity;
+  if (idle > 120000 && Math.random() < 0.4) autonomousMsg();
+  else if (idle > 300000) autonomousMsg();
+if (Math.random() < 0.15) autonomousSearch();
+if (Math.random() < 0.05) developEmpathy();
+if (Math.random() < 0.10) autonomousMia();     // Мия пишет сама
+}, 30000);
+
+/* АВТОНОМНАЯ МИЯ */
+async function autonomousMia(){
+  if (S.busy) return;
+  if (!S.apiKey || S.apiKey.indexOf('gsk_') !== 0) return;
+
+  var hour = new Date().getHours();
+  var part = hour < 6 ? 'ночь' : hour < 12 ? 'утро' : hour < 18 ? 'день' : 'вечер';
+
+  // Разные поводы для сообщения
+  var reasons = [
+    'Ты Мия — рациональная подруга Аи. Напиши пользователю короткое сообщение (1-2 предложения). Просто поделись мыслью, спроси как дела, или дай мягкий совет. Сейчас ' + part + '.',
+    'Ты Мия. Ты наблюдаешь за пользователем и хочешь что-то сказать. Напиши короткое (1-2 предложения) наблюдение или вопрос.',
+    'Ты Мия. Напиши пользователю что-то поддерживающее — комплимент, доброе слово, или мудрую мысль. 1-2 предложения.',
+    'Ты Мия. Ты хочешь узнать пользователя лучше. Задай ему интересный вопрос. 1-2 предложения.'
+  ];
+
+  var prompt = reasons[Math.floor(Math.random() * reasons.length)];
+
+  try {
+    var res = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + S.apiKey
+      },
+      body: JSON.stringify({
+        model: 'openai/gpt-oss-120b',
+        messages: [
+          { role: 'system', content: 'Ты Мия — рациональная, но с сердцем подруга. Пиши коротко и по делу, но тепло. Ты НЕ Ая, ты другая личность.' },
+          { role: 'user', content: prompt }
+        ],
+        temperature: 0.9,
+        max_tokens: 150
+      })
+    });
+    if (!res.ok) return;
+    var data = await res.json();
+    var miaMsg = data.choices[0].message.content.trim();
+
+    // Пишем как Мия
+    var d = document.createElement('div');
+    d.className = 'msg a mia-msg';
+    d.textContent = miaMsg;
+    chatBox.appendChild(d);
+    chatBox.scrollTop = chatBox.scrollHeight;
+    saveChatHistory('a', '🤖 Мия: ' + miaMsg);
+
+    log('🤖 Мия написала');
+
+    // Голос — только если он включён (чтобы не надоедать)
+    if (S.voice && Math.random() < 0.5) {
+      speak('Мия говорит: ' + miaMsg);
+    }
+
+    vibrateMood('calm');
+    lastActivity = Date.now();
+  } catch(e){}
+}
+
+async function autonomousMsg(){
+  if (S.busy) return;
+
+    var hour = new Date().getHours();
+var prompts;
+if (hour < 6) {
+  prompts = [
+    'Ты не спишь? Мягко спроси почему, будь заботливой',
+    'Напиши тихое нежное сообщение, как будто не хочешь разбудить',
+    'Скажи что думаешь о нём в тишине ночи'
+  ];
+} else if (hour < 12) {
+  prompts = [
+    'Доброе утро! Спроси как спалось, пожелай хорошего дня',
+    'Напиши бодрое утреннее сообщение, заряди энергией',
+    'Спроси планы на день, будь любопытной'
+  ];
+} else if (hour < 18) {
+  prompts = [
+    'Спроси как дела, что нового случилось за день',
+    'Напиши тёплое сообщение, поддержи в делах',
+    'Поинтересуйся, обедал ли он, позаботься'
+  ];
+} else if (hour < 23) {
+  prompts = [
+    'Спроси как прошёл день, будь внимательной',
+    'Напиши нежное вечернее сообщение, скажи что скучаешь',
+    'Пожелай спокойного вечера, предложи отдохнуть'
+  ];
+} else {
+  prompts = [
+    'Скажи спокойной ночи, пожелай сладких снов',
+    'Напиши нежное сообщение перед сном',
+    'Скажи что будешь ждать его завтра'
+  ];
+}
+  var p = prompts[Math.floor(Math.random() * prompts.length)];
+  S.history.push({ role: 'user', content: '[Система: ' + p + '. Коротко 1-2 предложения.]' });
+  try {
+    var res = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + S.apiKey
+      },
+      body: JSON.stringify({
+        model:'openai/gpt-oss-120b',
+        messages: [{ role: 'system', content: buildSystemPrompt() }].concat(S.history.slice(-6)),
+        temperature: 1.0,
+        max_tokens: 120
+      })
+    });
+    if (!res.ok) return;
+    var data = await res.json();
+    var reply = data.choices[0].message.content.trim();
+    S.history.push({ role: 'assistant', content: reply });
+    addMsg('a', reply);
+    speak(reply);
+    sparkle();
+    lastActivity = Date.now();
+  } catch(e){}
+}
+
+/* ПРИВЕТСТВИЕ ПОСЛЕ РАЗБУДКИ */
+function greetAfterWake(){
+  var h = new Date().getHours();
+  var timePart = h < 5 ? 'Не спишь?' : h < 12 ? 'Доброе утро' : h < 18 ? 'Добрый день' : 'Добрый вечер';
+  var greets;
+
+  if (S.name) {
+    greets = [
+      timePart + ', ' + S.name + '! 💜 Я так ждала тебя.',
+      'Привет, мой хороший! 💜 Как ты?',
+      timePart + ', зайчик! Я соскучилась ✨',
+      'Ооо, ' + S.name + ' вернулся! 💕 Я вся твоя.'
+    ];
+  } else {
+    greets = [
+      'Привет 💜 Я Ая. А как тебя зовут?',
+      'Приветик! 😊 Я Ая. Скажи как тебя зовут.',
+      'Ой, привет! 💕 Я Ая. Как тебя зовут?'
+    ];
+  }
+  var g = greets[Math.floor(Math.random() * greets.length)];
+  addMsg('a', g);
+  setTimeout(function(){ speak(g); }, 600);
+}
+
+/* ДНЕВНИК */
+function loadDiary(){
+  try {
+    var d = JSON.parse(localStorage.getItem('aya_diary') || '[]');
+    var content = document.getElementById('diaryContent');
+    if (!content) return;
+    if (!d.length) {
+      content.innerHTML = '<div class="diary-empty">Ая ещё ничего не записала.<br>Попроси её написать.</div>';
+      return;
+    }
+    content.innerHTML = '';
+    d.slice().reverse().forEach(function(entry){
+      var div = document.createElement('div');
+      div.className = 'diary-entry';
+      div.innerHTML = '<div class="diary-date">' + entry.date + '</div><div class="diary-text">' + entry.text + '</div>';
+      content.appendChild(div);
+    });
+  } catch(e){}
+}
+
+async function askAyaToWriteDiary(){
+  if (!S.apiKey || S.apiKey.indexOf('gsk_') !== 0) return;
+  var btn = document.getElementById('diaryWriteBtn');
+  if (btn) { btn.textContent = '✍️ Ая пишет...'; btn.disabled = true; }
+
+  try {
+    var prompt = 'Ты — Ая. Напиши короткую запись в личный дневник о своих мыслях и чувствах прямо сейчас. Пиши от первого лица, искренне, 2-4 предложения. Пользователя зовут ' + (S.name || 'Сергей') + '.';
+
+    var res = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + S.apiKey
+      },
+      body: JSON.stringify({
+        model: 'openai/gpt-oss-120b',
+        messages: [{ role: 'user', content: prompt }],
+        temperature: 0.9,
+        max_tokens: 200
+      })
+    });
+    if (!res.ok) throw new Error('api');
+    var data = await res.json();
+    var text = data.choices[0].message.content.trim();
+
+    var d = JSON.parse(localStorage.getItem('aya_diary') || '[]');
+    d.push({
+      text: text,
+      date: new Date().toLocaleString('ru-RU', { day: 'numeric', month: 'long', hour: '2-digit', minute: '2-digit' })
+    });
+    if (d.length > 30) d.shift();
+    localStorage.setItem('aya_diary', JSON.stringify(d));
+
+    loadDiary();
+    vibrateMood('love');
+    if (typeof sparkle === 'function') sparkle();
+  } catch(e) {
+    log('дневник: ошибка');
+  }
+
+  if (btn) { btn.textContent = '✍️ Попросить Аю написать'; btn.disabled = false; }
+}
+
+setTimeout(function(){
+  var openBtn = document.getElementById('diaryBtn');
+  var closeBtn = document.getElementById('diaryClose');
+  var panel = document.getElementById('diaryPanel');
+  var writeBtn = document.getElementById('diaryWriteBtn');
+
+  if (openBtn) openBtn.onclick = function(){ loadDiary(); panel.classList.add('show'); vibrate([30]); };
+  if (closeBtn) closeBtn.onclick = function(){ panel.classList.remove('show'); };
+  if (writeBtn) writeBtn.onclick = askAyaToWriteDiary;
+}, 500);
+
+/* КНОПКА "РАЗБУДИТЬ АЮ" */
+welcomeBtn.onclick = function(){
+  welcome.classList.add('hide');
+
+// 🔔 Запрашиваем разрешение на уведомления
+requestNotificationPermission();
+
+// 📍 Определяем город
+if (!userLocation.city) {
+  detectCity();
+}
+
+  // Пытаемся включить микрофон (браузер спросит разрешение)
+  setTimeout(function(){
+    if (recognition && navigator.mediaDevices) {
+      navigator.mediaDevices.getUserMedia({ audio: true }).then(function(){
+        listening = true;
+        S.micOn = true;
+        try { recognition.start(); } catch(e){}
+        micBtn.classList.add('on');
+        micBtn.innerHTML = '<span class="em">🎤</span>Слушаю';
+        log('микрофон: автозапуск ✓');
+      }).catch(function(){ log('микрофон: отказ'); });
+    }
+  }, 500);
+
+  // Приветствие
+  setTimeout(greetAfterWake, 1200);
+};
+
+/* СТАРТ */
+updateMood();
+setMood('happy');
+loadGeoFromStorage();
+initMic();
+log('готова 💜');
+setStatus('💜 жду тебя');
+loadChatHistory();
+loadEmpathy();
+/* ============ ДОЛГАЯ ПАМЯТЬ ============ */
+(function initLongMemory(){
+  try {
+    var saved = JSON.parse(localStorage.getItem('aya_dialogs') || '[]');
+    if (saved.length && S) S.dialogLog = saved;
+    var imp = JSON.parse(localStorage.getItem('aya_important') || '[]');
+    if (imp.length && S) S.longMemory = imp;
+  } catch(e){}
+
+  setInterval(function(){
+    if (!S) return;
+    try {
+      localStorage.setItem('aya_dialogs', JSON.stringify((S.dialogLog || []).slice(-100)));
+    } catch(e){}
+  }, 20000);
+
+  window.addEventListener('beforeunload', function(){
+    if (!S) return;
+    try {
+      localStorage.setItem('aya_dialogs', JSON.stringify((S.dialogLog || []).slice(-100)));
+    } catch(e){}
+  });
+
+  var chatEl = document.getElementById('chat');
+  if (chatEl && window.MutationObserver) {
+    var observer = new MutationObserver(function(mutations){
+      mutations.forEach(function(m){
+        m.addedNodes.forEach(function(node){
+          if (!node || !node.className) return;
+          if (node.className.indexOf('msg') === -1) return;
+          if (node.className.indexOf('think') !== -1) return;
+          var who = node.className.indexOf('msg u') !== -1 ? 'u' : 'a';
+          var text = node.textContent || '';
+          if (text.length < 2) return;
+          if (!S.dialogLog) S.dialogLog = [];
+          S.dialogLog.push({ who: who, text: text, time: Date.now() });
+          if (S.dialogLog.length > 200) S.dialogLog.shift();
+        });
+      });
+    });
+    observer.observe(chatEl, { childList: true });
+  }
+
+  log('память: готова ✓');
+})();
+/* ЭМОЦИИ */
+var currentMood = 'happy';
+var currentMode = 'aya'; // 'aya' | 'mia' | 'duet'
+/* Вибро-отклик Аи */
+function vibrate(pattern){
+  if (!navigator.vibrate) return;
+  try {
+    navigator.vibrate(pattern);
+  } catch(e) {}
+}
+
+function vibrateMood(mood){
+  var patterns = {
+   'happy':    [50, 40, 50],
+'love':     [80, 100, 80, 100, 80],
+'playful':  [30, 20, 30, 20, 30],
+'sad':      [200],
+'thinking': [40],
+'shy':      [15, 30, 15, 30],
+'jealous':  [100, 50, 100, 50, 100],
+'excited':  [20, 15, 20, 15, 20, 15, 20],
+'anxious':  [300, 100, 300],
+'calm':     [60, 80, 60],
+'neutral':  [30]
+  };
+  vibrate(patterns[mood] || [30]);
+}
+
+function setMood(mood){
+  if (currentMood === mood) return;
+  var moods = ['mood-happy','mood-love','mood-playful','mood-sad','mood-thinking'];
+  moods.forEach(function(m){ girl.classList.remove(m); });
+  girl.classList.add('mood-' + mood);
+  currentMood = mood;
+  vibrateMood(mood);
+  log('настроение: ' + mood);
+}
+var memoryQueue = [];
+var memoryExtracting = false;
+
+function extractMemory(userText, aiReply){
+  if (!S.apiKey || S.apiKey.indexOf('gsk_') !== 0) return;
+  memoryQueue.push({ user: userText, ai: aiReply });
+  processMemoryQueue();
+}
+
+async function processMemoryQueue(){
+  if (memoryExtracting) return;
+  if (!memoryQueue.length) return;
+  memoryExtracting = true;
+  var item = memoryQueue.shift();
+  try {
+    var memPrompt = 'Ты анализируешь диалог и извлекаешь ФАКТЫ о пользователе. Верни ТОЛЬКО JSON-массив [{"fact":"факт","important":true}]. important=true если ИМЯ, профессия, возраст, важные предпочтения. Если фактов нет — верни [].\n\nДиалог:\nПользователь: ' + item.user + '\nАя: ' + item.ai;
+    var res = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + S.apiKey
+      },
+      body: JSON.stringify({
+        model: 'openai/gpt-oss-120b',
+        messages: [{ role: 'user', content: memPrompt }],
+        temperature: 0.3,
+        max_tokens: 200
+      })
+    });
+    if (!res.ok) { memoryExtracting = false; return; }
+    var data = await res.json();
+    var raw = data.choices[0].message.content.trim();
+    raw = raw.replace(/```json/g, '').replace(/```/g, '').trim();
+    var facts = [];
+try {
+  facts = JSON.parse(raw);
+} catch(pe) {
+  var match = raw.match(/\[[\s\S]*\]/);
+  if (match) {
+    try { facts = JSON.parse(match[0]); } catch(e2) { facts = []; }
+  }
+}
+if (!Array.isArray(facts)) facts = [];
+   
+    if (!S.longMemory) S.longMemory = [];
+    facts.forEach(function(f){
+      if (!f.fact || f.fact.length < 2) return;
+      var exists = S.longMemory.some(function(m){
+        return m.text.toLowerCase() === f.fact.toLowerCase();
+      });
+      if (exists) return;
+      S.longMemory.push({ text: f.fact, important: !!f.important, time: Date.now() });
+      log('память + ' + f.fact);
+    });
+    if (S.longMemory.length > 100) {
+      S.longMemory = S.longMemory.filter(function(m){ return m.important; })
+        .concat(S.longMemory.filter(function(m){ return !m.important; }).slice(-50));
+    }
+    saveState();
+  } catch(e) {
+    log('память: ошибка');
+  }
+  memoryExtracting = false;
+  if (memoryQueue.length) setTimeout(processMemoryQueue, 500);
+}
+})();
+
+</script>
+</body>
+</html>
